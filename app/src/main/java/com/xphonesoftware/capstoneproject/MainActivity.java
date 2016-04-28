@@ -11,6 +11,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.facebook.stetho.Stetho;
+import com.xphonesoftware.capstoneproject.ExerciseInformation.ExerciseHelper;
+
 import java.util.List;
 
 import butterknife.Bind;
@@ -18,7 +21,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
     @Bind(R.id.exercise_type_content)
-    EditText excerciseContentText;
+    EditText exerciseContentText;
     @Bind(R.id.weight_content)
     EditText weightContentText;
     @Bind(R.id.rep_count)
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Stetho.initializeWithDefaults(this);
+        ExerciseHelper helper = new ExerciseHelper(this);
         ButterKnife.bind(this);
         recordVoiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         acceptWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                excerciseContentText.setText("");
+                exerciseContentText.setText("");
                 weightContentText.setText("");
                 repContentText.setText("");
                 Toast.makeText(getApplicationContext(), "Exercise added", Toast.LENGTH_SHORT).show();
@@ -59,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         rejectWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                excerciseContentText.setText("");
+                exerciseContentText.setText("");
                 weightContentText.setText("");
                 repContentText.setText("");
                 Toast.makeText(getApplicationContext(), "Exercise deleted", Toast.LENGTH_SHORT).show();
@@ -153,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                     RecognizerIntent.EXTRA_RESULTS);
             spokenWorkout = results.get(0);
             Log.v("Full Exercise", spokenWorkout);
-            excerciseContentText.setText(parseExercise(spokenWorkout));
+            exerciseContentText.setText(parseExercise(spokenWorkout));
             weightContentText.setText(parseWeight());
             repContentText.setText(parseCount());
         }
