@@ -15,6 +15,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="com.xphonesoftware.capstoneproject"
+            android:name=".data.ExerciseProvider"
+            android:exported="false" />
+
     </application>
 
 </manifest>

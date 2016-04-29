@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/exercise_label_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exercise: "
+        android:paddingRight="3dp"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/exercise_value_item"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:text="lying down leg curl"
+        android:paddingRight="15dp"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/weight_label_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weight: "
+        android:paddingRight="3dp"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/weight_value_item"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:text="200"
+        android:paddingRight="10dp"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/rep_label_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reps: "
+        android:paddingRight="10dp"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/rep_value_item"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:text="250"
+        android:textColor="@android:color/black"/>
+
+</LinearLayout>

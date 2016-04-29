@@ -18,6 +18,20 @@
         android:textAlignment="center"
         android:textColor="@android:color/black"/>
 
+    <TextView
+        android:id="@+id/error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="25dp"
+        android:text="Please Repeat Exercise"
+        android:textSize="14dp"
+        android:layout_below="@id/sentence_structure_hint"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_marginTop="30dp"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"/>
+
     <ImageButton
         android:id="@+id/voice_record"
         android:layout_width="100dp"
