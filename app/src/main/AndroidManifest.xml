@@ -16,6 +16,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".DetailActivity" >
+        </activity>
+
         <provider
             android:authorities="com.xphonesoftware.capstoneproject"
             android:name=".data.ExerciseProvider"

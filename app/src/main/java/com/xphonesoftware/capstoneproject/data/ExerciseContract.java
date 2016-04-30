@@ -22,6 +22,7 @@ public class ExerciseContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + PATH_EXERCISES;
         public static final String TABLE_NAME = "exercises";
+        public static final String COLUMN_DATE = "date";
         public static final String COLUMN_EXERCISE = "exercise";
         public static final String COLUMN_WEIGHT = "weight";
         public static final String COLUMN_REPS = "reps";

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/previous_day"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="&lt;--"
+        android:textSize="16dp"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/day_listed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TODAY"
+        android:textSize="16dp"
+        android:textColor="@android:color/black"/>
+
+    <Button
+        android:id="@+id/next_day"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="-->"
+        android:textSize="16dp"
+        android:textColor="@android:color/black"/>
+
+</LinearLayout>

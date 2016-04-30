@@ -36,12 +36,15 @@ public class MainActivity extends AppCompatActivity {
     ImageButton recordVoiceButton;
     @Bind(R.id.error_message)
     TextView errorMessage;
+    @Bind(R.id.next_activity)
+    Button nextActivity;
 
     private static final int SPEECH_REQUEST_CODE = 0;
     private static final String ERROR_CODE = "1";
     private String spokenWorkout;
     private String weightSubString;
     private String repSubstring;
+    private long date;
     private boolean hasWeight;
     private ContentValues exerciseData;
 
@@ -63,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
                 String exercise = String.valueOf(exerciseContentText.getText());
                 String weight = String.valueOf(weightContentText.getText());
                 String reps = String.valueOf(repContentText.getText());
+                date = System.currentTimeMillis();
+                exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_DATE, date);
                 exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_EXERCISE, exercise);
                 exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_WEIGHT, weight);
                 exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_REPS, reps);
@@ -80,6 +85,13 @@ public class MainActivity extends AppCompatActivity {
                 weightContentText.setText("");
                 repContentText.setText("");
                 Toast.makeText(getApplicationContext(), "Exercise deleted", Toast.LENGTH_SHORT).show();
+            }
+        });
+        nextActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+                startActivity(intent);
             }
         });
         exerciseData = new ContentValues();

@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class ExerciseDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 1;
     static final String DATABASE_NAME = "exercises.db";
 
     public ExerciseDbHelper(Context context) {
@@ -20,6 +20,7 @@ public class ExerciseDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_TABLE = "CREATE TABLE " + ExerciseContract.ExerciseEntry.TABLE_NAME + " (" +
                 ExerciseContract.ExerciseEntry._ID + " INTEGER PRIMARY KEY," +
+                ExerciseContract.ExerciseEntry.COLUMN_DATE + " TEXT, " +
                 ExerciseContract.ExerciseEntry.COLUMN_EXERCISE + " TEXT, " +
                 ExerciseContract.ExerciseEntry.COLUMN_WEIGHT + " TEXT, " +
                 ExerciseContract.ExerciseEntry.COLUMN_REPS + " TEXT " +
