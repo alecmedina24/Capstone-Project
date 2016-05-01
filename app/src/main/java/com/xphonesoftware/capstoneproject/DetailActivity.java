@@ -1,5 +1,6 @@
 package com.xphonesoftware.capstoneproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,10 @@ public class DetailActivity extends AppCompatActivity {
     Button nextDayButton;
     @Bind(R.id.previous_day)
     Button previousDayButton;
+
+    //TODO: REMOVE IN FUTURE
+    @Bind(R.id.overview_activity)
+    Button overViewActivity;
 
     private static final long ONE_DAY = 86400000;
 
@@ -75,13 +80,22 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        //TODO: REMOVE THIS IN FUTURE
+        overViewActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), OverViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
         today = System.currentTimeMillis();
         yesterday = System.currentTimeMillis() - ONE_DAY;
 
     }
 
     public void setNewAdapter() {
-        exerciseList.setAdapter(new ExercisesAdapter(exerciseModel.createExercisesList()));
+        exerciseList.setAdapter(new ExercisesAdapter(exerciseModel.createExercisesList(), getApplicationContext()));
         exerciseList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         exerciseList.setItemAnimator(new SlideInUpAnimator());
     }

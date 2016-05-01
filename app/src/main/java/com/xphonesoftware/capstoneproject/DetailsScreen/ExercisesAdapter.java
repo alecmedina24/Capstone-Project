@@ -1,12 +1,14 @@
 package com.xphonesoftware.capstoneproject.DetailsScreen;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.xphonesoftware.capstoneproject.OverViewActivity;
 import com.xphonesoftware.capstoneproject.R;
 
 import java.util.List;
@@ -17,9 +19,11 @@ import java.util.List;
 public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.ViewHolder> {
 
     private List<ExerciseModel> exercises;
+    private Context context;
 
-    public ExercisesAdapter(List<ExerciseModel> exercises) {
+    public ExercisesAdapter(List<ExerciseModel> exercises, Context context) {
         this.exercises = exercises;
+        this.context = context;
     }
 
 
@@ -36,11 +40,21 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ExercisesAdapter.ViewHolder holder, int position) {
-        ExerciseModel exercise = exercises.get(position);
+    public void onBindViewHolder(final ExercisesAdapter.ViewHolder holder, int position) {
+        final ExerciseModel exercise = exercises.get(position);
 
         TextView exerciseText = holder.exerciseValue;
         exerciseText.setText(exercise.getExercise());
+        exerciseText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, OverViewActivity.class);
+                intent.putExtra("exercise", exercise.getExercise());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setAction(Intent.ACTION_SEND);
+                context.startActivity(intent);
+            }
+        });
 
         TextView weightText = holder.weightValue;
         weightText.setText(exercise.getWeight());
@@ -55,16 +69,13 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-//        @Bind(R.id.exercise_value_item)
+
         TextView exerciseValue;
-//        @Bind(R.id.weight_value_item)
         TextView weightValue;
-//        @Bind(R.id.rep_value_item)
         TextView repValue;
 
         public ViewHolder(View itemView) {
             super(itemView);
-//            ButterKnife.bind(itemView);
             exerciseValue = (TextView) itemView.findViewById(R.id.exercise_value_item);
             weightValue = (TextView) itemView.findViewById(R.id.weight_value_item);
             repValue = (TextView) itemView.findViewById(R.id.rep_value_item);

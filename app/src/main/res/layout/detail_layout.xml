@@ -6,6 +6,13 @@
     android:orientation="vertical"
     android:id="@+id/detail_screen_layout">
 
+    <Button
+        android:id="@+id/overview_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-->"
+        android:textSize="16sp"/>
+
     <include layout="@layout/day_header_layout"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
