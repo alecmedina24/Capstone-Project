@@ -21,7 +21,7 @@ public class OverViewModel {
     private Cursor cursor;
     private int exerciseCount;
 
-    private static final String[] EXERCISE_PROJECTION = new String[] {
+    private static final String[] EXERCISE_PROJECTION = new String[]{
             ExerciseContract.ExerciseEntry.COLUMN_DATE,
             ExerciseContract.ExerciseEntry.COLUMN_EXERCISE,
             ExerciseContract.ExerciseEntry.COLUMN_WEIGHT,
@@ -67,7 +67,7 @@ public class OverViewModel {
         String weight;
         String reps;
 
-        for (int i = exerciseCount; i >= 0; i-- ) {
+        for (int i = exerciseCount; i >= 0; i--) {
             cursor.moveToPosition(i);
             String exercise = cursor.getString(INDEX_EXERCISE);
             if (!exerciseCheck.equals("-1")) {
@@ -82,6 +82,56 @@ public class OverViewModel {
         }
 
         return exercises;
+    }
+
+    public ArrayList<String> createPickerList() {
+        ArrayList<String> pickerList = new ArrayList<>();
+        ArrayList<String> checkList = new ArrayList<>();
+        boolean onList = true;
+
+        pickerList.add("Select Exercise");
+        checkList.add("selectexercise");
+
+        for (int i = exerciseCount; i >= 0; i--) {
+            cursor.moveToPosition(i);
+            String exercise = cursor.getString(INDEX_EXERCISE);
+            String formattedExercise = exercise.replaceAll("\\s", "");
+
+            if (checkList.size() == 1) {
+                checkList.add(formattedExercise);
+                pickerList.add(exercise);
+            } else {
+                for (int j = 0; j < checkList.size(); j++) {
+                    if (formattedExercise.equals(checkList.get(j))) {
+                        onList = true;
+                        break;
+                    } else {
+                        onList = false;
+                    }
+                }
+            }
+
+            if (!onList) {
+                pickerList.add(exercise);
+                checkList.add(formattedExercise);
+            }
+        }
+
+        return pickerList;
+    }
+
+    public int getPickerItemIndex(ArrayList<String> list, StringBuffer buffer) {
+
+        int index = -1;
+
+        for (int i = 0; i < list.size(); i++) {
+            String formattedListItem = list.get(i).replaceAll("\\s", "");
+            if (formattedListItem.equals(buffer.toString())) {
+                index = i;
+            }
+        }
+
+        return index;
     }
 
     public String formatDate(long date) {

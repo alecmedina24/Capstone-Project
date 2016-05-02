@@ -1,14 +1,13 @@
 package com.xphonesoftware.capstoneproject.DetailsScreen;
 
 import android.content.Context;
-import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.xphonesoftware.capstoneproject.OverViewActivity;
 import com.xphonesoftware.capstoneproject.R;
 
 import java.util.List;
@@ -19,11 +18,11 @@ import java.util.List;
 public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.ViewHolder> {
 
     private List<ExerciseModel> exercises;
-    private Context context;
+    private FragmentManager fragmentManager;
 
-    public ExercisesAdapter(List<ExerciseModel> exercises, Context context) {
+    public ExercisesAdapter(List<ExerciseModel> exercises, FragmentManager fragmentManager) {
         this.exercises = exercises;
-        this.context = context;
+        this.fragmentManager = fragmentManager;
     }
 
 
@@ -48,11 +47,11 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.View
         exerciseText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, OverViewActivity.class);
-                intent.putExtra("exercise", exercise.getExercise());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setAction(Intent.ACTION_SEND);
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, OverViewActivity.class);
+//                intent.putExtra("exercise", exercise.getExercise());
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.setAction(Intent.ACTION_SEND);
+//                context.startActivity(intent);
             }
         });
 

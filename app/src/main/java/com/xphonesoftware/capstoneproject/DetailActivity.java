@@ -1,12 +1,14 @@
 package com.xphonesoftware.capstoneproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,7 +24,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 /**
  * Created by alecmedina on 4/29/16.
  */
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends Fragment {
 
     @Bind(R.id.list_layout)
     RecyclerView exerciseList;
@@ -45,14 +47,19 @@ public class DetailActivity extends AppCompatActivity {
     private long day;
     private long today;
     private long yesterday;
+    private Context context;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.detail_layout);
-        ButterKnife.bind(this);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.detail_layout, container, false);
 
-        exerciseModel = new ExerciseModel(this);
+        context = getContext();
+
+        ButterKnife.bind(this, rootView);
+
+        exerciseModel = new ExerciseModel(context);
         setNewAdapter();
 
         final AdRequest adRequest = new AdRequest.Builder().build();
@@ -84,7 +91,7 @@ public class DetailActivity extends AppCompatActivity {
         overViewActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), OverViewActivity.class);
+                Intent intent = new Intent(context.getApplicationContext(), OverViewActivity.class);
                 startActivity(intent);
             }
         });
@@ -92,11 +99,12 @@ public class DetailActivity extends AppCompatActivity {
         today = System.currentTimeMillis();
         yesterday = System.currentTimeMillis() - ONE_DAY;
 
+        return rootView;
     }
 
     public void setNewAdapter() {
-        exerciseList.setAdapter(new ExercisesAdapter(exerciseModel.createExercisesList(), getApplicationContext()));
-        exerciseList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        exerciseList.setAdapter(new ExercisesAdapter(exerciseModel.createExercisesList(), getFragmentManager()));
+        exerciseList.setLayoutManager(new LinearLayoutManager(context.getApplicationContext()));
         exerciseList.setItemAnimator(new SlideInUpAnimator());
     }
 

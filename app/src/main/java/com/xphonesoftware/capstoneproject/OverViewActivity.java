@@ -1,13 +1,21 @@
 package com.xphonesoftware.capstoneproject;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.xphonesoftware.capstoneproject.OverViewScreen.OverViewAdapter;
 import com.xphonesoftware.capstoneproject.OverViewScreen.OverViewModel;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -16,38 +24,88 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 /**
  * Created by alecmedina on 4/30/16.
  */
-public class OverViewActivity extends AppCompatActivity {
+public class OverViewActivity extends Fragment implements AdapterView.OnItemSelectedListener {
 
     @Bind(R.id.overview_list)
     RecyclerView overViewList;
 
     private OverViewModel overViewModel;
     private String exercise;
+    private Spinner exerciseSpinner;
+    private StringBuffer exerciseBuffer;
+    private boolean exerciseSelected;
+    private ArrayList<String> exercisePickerList;
+    private Context context;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.exercise_overview_layout);
-        ButterKnife.bind(this);
 
-        overViewModel = new OverViewModel(this);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.exercise_overview_layout, container, false);
 
-        exercise = getIntent().getStringExtra("exercise");
+        context = getContext();
+
+        ButterKnife.bind(this, rootView);
+
+        overViewModel = new OverViewModel(context);
+
+        exerciseSpinner = (Spinner) rootView.findViewById(R.id.exercise_type);
+        exerciseSpinner.setOnItemSelectedListener(this);
+
+        setNewPickerAdapter();
+
+//        exercise = getIntent().getStringExtra("exercise");
 
         if (exercise != null) {
             String formattedExercise = exercise.replaceAll("\\s", "");
-            StringBuffer exerciseBuffer = new StringBuffer(formattedExercise);
+            exerciseBuffer = new StringBuffer(formattedExercise);
+            exerciseSelected = true;
             overViewModel.setExerciseCheck(exerciseBuffer);
         } else {
+            exerciseSelected = false;
             overViewModel.setExerciseCheck(new StringBuffer("-1"));
         }
 
-        setNewAdapter();
+        exercisePickerList = overViewModel.createPickerList();
+
+        setNewExerciseAdapter();
+
+        return rootView;
     }
 
-    public void setNewAdapter() {
+    public void setNewExerciseAdapter() {
         overViewList.setAdapter(new OverViewAdapter(overViewModel.createExerciseList()));
-        overViewList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        overViewList.setLayoutManager(new LinearLayoutManager(context.getApplicationContext()));
         overViewList.setItemAnimator(new SlideInUpAnimator());
+    }
+
+    public void setNewPickerAdapter() {
+
+        ArrayAdapter<String> pickerAdapter = new ArrayAdapter<>
+                (context, android.R.layout.simple_spinner_item, overViewModel.createPickerList());
+
+        pickerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        exerciseSpinner.setAdapter(pickerAdapter);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (!exerciseSelected) {
+            String exercise = (String) parent.getItemAtPosition(position);
+            String formattedExercise = exercise.replaceAll("\\s", "");
+            exerciseBuffer = new StringBuffer(formattedExercise);
+        }else {
+            int index = overViewModel.getPickerItemIndex(exercisePickerList, exerciseBuffer);
+            parent.setSelection(index);
+            exerciseSelected = false;
+        }
+        overViewModel.setExerciseCheck(exerciseBuffer);
+        setNewExerciseAdapter();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

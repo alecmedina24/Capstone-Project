@@ -1,12 +1,14 @@
 package com.xphonesoftware.capstoneproject;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -21,7 +23,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends android.support.v4.app.Fragment {
     @Bind(R.id.exercise_type_content)
     EditText exerciseContentText;
     @Bind(R.id.weight_content)
@@ -47,13 +49,21 @@ public class MainActivity extends AppCompatActivity {
     private long date;
     private boolean hasWeight;
     private ContentValues exerciseData;
+    private Context context;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Stetho.initializeWithDefaults(this);
-        ButterKnife.bind(this);
+
+        ViewGroup rootView = (ViewGroup) inflater.inflate(
+                R.layout.activity_main, container, false);
+
+        context = getContext();
+
+        Stetho.initializeWithDefaults(context);
+        ButterKnife.bind(this, rootView);
+
         recordVoiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
                 exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_EXERCISE, exercise);
                 exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_WEIGHT, weight);
                 exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_REPS, reps);
-                getContentResolver().insert(ExerciseContract.ExerciseEntry.CONTENT_URI, exerciseData);
+                context.getContentResolver().insert(ExerciseContract.ExerciseEntry.CONTENT_URI, exerciseData);
                 exerciseContentText.setText("");
                 weightContentText.setText("");
                 repContentText.setText("");
-                Toast.makeText(getApplicationContext(), "Exercise added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context.getApplicationContext(), "Exercise added", Toast.LENGTH_SHORT).show();
             }
         });
         rejectWorkoutButton.setOnClickListener(new View.OnClickListener() {
@@ -84,17 +94,19 @@ public class MainActivity extends AppCompatActivity {
                 exerciseContentText.setText("");
                 weightContentText.setText("");
                 repContentText.setText("");
-                Toast.makeText(getApplicationContext(), "Exercise deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context.getApplicationContext(), "Exercise deleted", Toast.LENGTH_SHORT).show();
             }
         });
         nextActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+                Intent intent = new Intent(context.getApplicationContext(), DetailActivity.class);
                 startActivity(intent);
             }
         });
         exerciseData = new ContentValues();
+
+        return rootView;
     }
 
     public String parseExercise(String speech) {
@@ -180,9 +192,9 @@ public class MainActivity extends AppCompatActivity {
     // This callback is invoked when the Speech Recognizer returns.
     // This is where you process the intent and extract the speech text from the intent.
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent data) {
-        if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent data) {
+        if (requestCode == SPEECH_REQUEST_CODE && resultCode == -1) {
             List<String> results = data.getStringArrayListExtra(
                     RecognizerIntent.EXTRA_RESULTS);
             spokenWorkout = results.get(0);
