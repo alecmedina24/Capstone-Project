@@ -24,18 +24,18 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 /**
  * Created by alecmedina on 4/30/16.
  */
-public class OverViewActivity extends Fragment implements AdapterView.OnItemSelectedListener {
+public class OverViewFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     @Bind(R.id.overview_list)
     RecyclerView overViewList;
 
     private OverViewModel overViewModel;
-    private String exercise;
     private Spinner exerciseSpinner;
     private StringBuffer exerciseBuffer;
     private boolean exerciseSelected;
     private ArrayList<String> exercisePickerList;
     private Context context;
+    private AdapterView<?> adapterView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,15 +57,15 @@ public class OverViewActivity extends Fragment implements AdapterView.OnItemSele
 
 //        exercise = getIntent().getStringExtra("exercise");
 
-        if (exercise != null) {
-            String formattedExercise = exercise.replaceAll("\\s", "");
-            exerciseBuffer = new StringBuffer(formattedExercise);
-            exerciseSelected = true;
-            overViewModel.setExerciseCheck(exerciseBuffer);
-        } else {
+//        if (exercise != null) {
+//            String formattedExercise = exercise.replaceAll("\\s", "");
+//            exerciseBuffer = new StringBuffer(formattedExercise);
+//            exerciseSelected = true;
+//            overViewModel.setExerciseCheck(exerciseBuffer);
+//        } else {
             exerciseSelected = false;
             overViewModel.setExerciseCheck(new StringBuffer("-1"));
-        }
+//        }
 
         exercisePickerList = overViewModel.createPickerList();
 
@@ -81,7 +81,6 @@ public class OverViewActivity extends Fragment implements AdapterView.OnItemSele
     }
 
     public void setNewPickerAdapter() {
-
         ArrayAdapter<String> pickerAdapter = new ArrayAdapter<>
                 (context, android.R.layout.simple_spinner_item, overViewModel.createPickerList());
 
@@ -91,10 +90,10 @@ public class OverViewActivity extends Fragment implements AdapterView.OnItemSele
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        adapterView = parent;
         if (!exerciseSelected) {
             String exercise = (String) parent.getItemAtPosition(position);
-            String formattedExercise = exercise.replaceAll("\\s", "");
-            exerciseBuffer = new StringBuffer(formattedExercise);
+            setExerciseBuffer(exercise);
         }else {
             int index = overViewModel.getPickerItemIndex(exercisePickerList, exerciseBuffer);
             parent.setSelection(index);
@@ -107,5 +106,19 @@ public class OverViewActivity extends Fragment implements AdapterView.OnItemSele
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public void setOverViewExercise(String exercise) {
+        setExerciseBuffer(exercise);
+        exerciseSelected = true;
+        overViewModel.setExerciseCheck(exerciseBuffer);
+        int index = overViewModel.getPickerItemIndex(exercisePickerList, exerciseBuffer);
+        adapterView.setSelection(index);
+        setNewExerciseAdapter();
+    }
+
+    public void setExerciseBuffer(String exercise) {
+        String formattedExercise = exercise.replaceAll("\\s", "");
+        exerciseBuffer = new StringBuffer(formattedExercise);
     }
 }

@@ -8,21 +8,14 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PagerActivity">
+        <activity android:name=".PagerActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!--<activity android:name=".DetailActivity" ></activity>-->
-
-        <!--<activity android:name=".OverViewActivity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.SEND" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
 
         <provider
             android:authorities="com.xphonesoftware.capstoneproject"

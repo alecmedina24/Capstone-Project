@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:text="Exercise"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
         android:paddingRight="80dp"
         android:paddingLeft="5dp"/>
 
@@ -20,7 +19,6 @@
         android:layout_height="wrap_content"
         android:text="Weight"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
         android:paddingRight="45dp"/>
 
     <TextView
@@ -29,7 +27,6 @@
         android:layout_height="wrap_content"
         android:text="Reps"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
         android:paddingRight="60dp"/>
 
 </LinearLayout>

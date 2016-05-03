@@ -4,25 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/next_activity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-->"/>
-
     <TextView
         android:id="@+id/sentence_structure_hint"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:layout_marginRight="25dp"
         android:layout_marginLeft="25dp"
         android:textSize="14dp"
         android:text="Speak exercise, weight, and amount of reps
-        Example: Tricep press, 25 pounds, 20 reps
-        *Hold phone close to mouth for better results*"
+        Example: Tricep press, 25 pounds, 20 reps"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/voice_hint_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="*Hold phone close to mouth for better results*"
         android:textAlignment="center"
-        android:textColor="@android:color/black"/>
+        android:textSize="14dp"
+        android:layout_below="@id/sentence_structure_hint" />
 
     <TextView
         android:id="@+id/error_message"
@@ -45,31 +46,35 @@
         android:scaleType="fitXY"
         android:src="@drawable/circular_microphone_button"
         android:clickable="true"
-        android:layout_centerInParent="true"/>
+        android:elevation="10dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
+        android:id="@+id/primary_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/voice_record">
 
     <TextView
         android:id="@+id/exercise_type_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/voice_record"
         android:layout_marginLeft="35dp"
         android:layout_marginTop="35dp"
         android:textSize="16dp"
-        android:text="Exercise: "
-        android:textColor="@android:color/black"/>
+        android:text="Exercise: " />
 
     <EditText
         android:id="@+id/exercise_type_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/exercise_type_label"
-        android:layout_below="@id/voice_record"
         android:layout_marginTop="25dp"
         android:layout_marginRight="35dp"
         android:textSize="16dp"
         tools:text="leg press"
-        android:paddingBottom="7dp"
-        android:textColor="@android:color/black"/>
+        android:paddingBottom="7dp" />
 
     <TextView
         android:id="@+id/weight_label"
@@ -79,22 +84,19 @@
         android:paddingTop="15dp"
         android:layout_marginLeft="35dp"
         android:textSize="16dp"
-        android:text="Weight:"
-        android:textColor="@android:color/black"/>
+        android:text="Weight:" />
 
     <EditText
         android:id="@+id/weight_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/weight_label"
-        android:layout_below="@id/voice_record"
         android:layout_marginRight="35dp"
         android:layout_marginTop="60dp"
         android:textSize="16dp"
         android:paddingBottom="7dp"
         tools:text="135"
-        android:inputType="number"
-        android:textColor="@android:color/black"/>
+        android:inputType="number" />
 
     <TextView
         android:id="@+id/rep_label"
@@ -104,39 +106,53 @@
         android:text="Rep Count:"
         android:layout_below="@id/weight_label"
         android:layout_marginLeft="35dp"
-        android:paddingTop="15dp"
-        android:textColor="@android:color/black"/>
+        android:paddingTop="15dp" />
 
     <EditText
         android:id="@+id/rep_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/rep_label"
-        android:layout_below="@id/voice_record"
         android:layout_marginRight="35dp"
         android:layout_marginTop="97dp"
         android:textSize="16dp"
         tools:text="15"
         android:paddingBottom="7dp"
-        android:inputType="number"
-        android:textColor="@android:color/black"/>
+        android:inputType="number" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/buttons_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/primary_text"
+        android:layout_marginLeft="10dp">
 
     <Button
         android:id="@+id/accept_text_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_below="@id/rep_label"
-        android:layout_alignLeft="@id/exercise_type_label"
+        android:layout_below="@id/primary_text"
         android:clickable="true"
-        android:text="Y" />
+        android:text="Y"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:elevation="10dp" />
 
     <Button
         android:id="@+id/reject_text_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_below="@id/rep_label"
+        android:layout_below="@id/primary_text"
         android:layout_toRightOf="@id/accept_text_button"
         android:clickable="true"
-        android:text="N" />
+        android:text="N"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:elevation="10dp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

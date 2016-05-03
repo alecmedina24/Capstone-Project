@@ -1,7 +1,6 @@
 package com.xphonesoftware.capstoneproject.DetailsScreen;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +17,11 @@ import java.util.List;
 public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.ViewHolder> {
 
     private List<ExerciseModel> exercises;
-    private FragmentManager fragmentManager;
+    private SetExercise setExercise;
 
-    public ExercisesAdapter(List<ExerciseModel> exercises, FragmentManager fragmentManager) {
+    public ExercisesAdapter(List<ExerciseModel> exercises, Context context) {
         this.exercises = exercises;
-        this.fragmentManager = fragmentManager;
+        setExercise = (SetExercise) context;
     }
 
 
@@ -52,6 +51,7 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.View
 //                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                intent.setAction(Intent.ACTION_SEND);
 //                context.startActivity(intent);
+                setExercise.setExercise(exercise.getExercise());
             }
         });
 
@@ -79,5 +79,9 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.View
             weightValue = (TextView) itemView.findViewById(R.id.weight_value_item);
             repValue = (TextView) itemView.findViewById(R.id.rep_value_item);
         }
+    }
+
+    public interface SetExercise {
+        void setExercise(String exercise);
     }
 }

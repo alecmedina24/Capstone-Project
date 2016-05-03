@@ -23,7 +23,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends android.support.v4.app.Fragment {
+public class MainFragment extends android.support.v4.app.Fragment {
     @Bind(R.id.exercise_type_content)
     EditText exerciseContentText;
     @Bind(R.id.weight_content)
@@ -38,8 +38,6 @@ public class MainActivity extends android.support.v4.app.Fragment {
     ImageButton recordVoiceButton;
     @Bind(R.id.error_message)
     TextView errorMessage;
-    @Bind(R.id.next_activity)
-    Button nextActivity;
 
     private static final int SPEECH_REQUEST_CODE = 0;
     private static final String ERROR_CODE = "1";
@@ -50,6 +48,7 @@ public class MainActivity extends android.support.v4.app.Fragment {
     private boolean hasWeight;
     private ContentValues exerciseData;
     private Context context;
+    private UpdateScreenListener updateScreenListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,12 +56,14 @@ public class MainActivity extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.activity_main, container, false);
+                R.layout.fragment_main, container, false);
 
         context = getContext();
 
         Stetho.initializeWithDefaults(context);
         ButterKnife.bind(this, rootView);
+
+        updateScreenListener = (UpdateScreenListener) getActivity();
 
         recordVoiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,18 +75,25 @@ public class MainActivity extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 String exercise = String.valueOf(exerciseContentText.getText());
-                String weight = String.valueOf(weightContentText.getText());
-                String reps = String.valueOf(repContentText.getText());
-                date = System.currentTimeMillis();
-                exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_DATE, date);
-                exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_EXERCISE, exercise);
-                exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_WEIGHT, weight);
-                exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_REPS, reps);
-                context.getContentResolver().insert(ExerciseContract.ExerciseEntry.CONTENT_URI, exerciseData);
-                exerciseContentText.setText("");
-                weightContentText.setText("");
-                repContentText.setText("");
-                Toast.makeText(context.getApplicationContext(), "Exercise added", Toast.LENGTH_SHORT).show();
+                if (!exercise.equals("")) {
+                    String weight = String.valueOf(weightContentText.getText());
+                    String reps = String.valueOf(repContentText.getText());
+                    date = System.currentTimeMillis();
+                    exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_DATE, date);
+                    exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_EXERCISE, exercise);
+                    exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_WEIGHT, weight);
+                    exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_REPS, reps);
+                    context.getContentResolver().insert(ExerciseContract.ExerciseEntry.CONTENT_URI, exerciseData);
+                    exerciseContentText.setText("");
+                    weightContentText.setText("");
+                    repContentText.setText("");
+
+                    updateScreenListener.updateScreen();
+
+                    Toast.makeText(context.getApplicationContext(), "Exercise added", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context.getApplicationContext(), "Please add exercise", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         rejectWorkoutButton.setOnClickListener(new View.OnClickListener() {
@@ -95,13 +103,6 @@ public class MainActivity extends android.support.v4.app.Fragment {
                 weightContentText.setText("");
                 repContentText.setText("");
                 Toast.makeText(context.getApplicationContext(), "Exercise deleted", Toast.LENGTH_SHORT).show();
-            }
-        });
-        nextActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context.getApplicationContext(), DetailActivity.class);
-                startActivity(intent);
             }
         });
         exerciseData = new ContentValues();
@@ -214,5 +215,9 @@ public class MainActivity extends android.support.v4.app.Fragment {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public interface UpdateScreenListener {
+        void updateScreen();
     }
 }

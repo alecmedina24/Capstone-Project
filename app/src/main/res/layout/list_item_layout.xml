@@ -6,29 +6,26 @@
 
     <TextView
         android:id="@+id/exercise_value_item"
-        android:layout_width="180dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="lying down leg curl"
-        android:textSize="16sp"
         android:paddingRight="15dp"
         android:paddingLeft="5dp"
-        android:textColor="@android:color/black"/>
+        android:layout_weight="1"/>
 
     <TextView
         android:id="@+id/weight_value_item"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="200"
-        android:textSize="16sp"
         android:paddingRight="10dp"
-        android:textColor="@android:color/black"/>
+        android:layout_weight="1"/>
 
     <TextView
         android:id="@+id/rep_value_item"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="250"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"/>
+        android:layout_weight="1"/>
 
 </LinearLayout>

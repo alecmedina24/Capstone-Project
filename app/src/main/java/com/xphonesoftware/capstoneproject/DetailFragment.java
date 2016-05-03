@@ -1,7 +1,6 @@
 package com.xphonesoftware.capstoneproject;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,7 +23,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 /**
  * Created by alecmedina on 4/29/16.
  */
-public class DetailActivity extends Fragment {
+public class DetailFragment extends Fragment {
 
     @Bind(R.id.list_layout)
     RecyclerView exerciseList;
@@ -36,10 +35,6 @@ public class DetailActivity extends Fragment {
     Button nextDayButton;
     @Bind(R.id.previous_day)
     Button previousDayButton;
-
-    //TODO: REMOVE IN FUTURE
-    @Bind(R.id.overview_activity)
-    Button overViewActivity;
 
     private static final long ONE_DAY = 86400000;
 
@@ -60,6 +55,7 @@ public class DetailActivity extends Fragment {
         ButterKnife.bind(this, rootView);
 
         exerciseModel = new ExerciseModel(context);
+
         setNewAdapter();
 
         final AdRequest adRequest = new AdRequest.Builder().build();
@@ -87,15 +83,6 @@ public class DetailActivity extends Fragment {
             }
         });
 
-        //TODO: REMOVE THIS IN FUTURE
-        overViewActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context.getApplicationContext(), OverViewActivity.class);
-                startActivity(intent);
-            }
-        });
-
         today = System.currentTimeMillis();
         yesterday = System.currentTimeMillis() - ONE_DAY;
 
@@ -103,7 +90,7 @@ public class DetailActivity extends Fragment {
     }
 
     public void setNewAdapter() {
-        exerciseList.setAdapter(new ExercisesAdapter(exerciseModel.createExercisesList(), getFragmentManager()));
+        exerciseList.setAdapter(new ExercisesAdapter(exerciseModel.createExercisesList(), context));
         exerciseList.setLayoutManager(new LinearLayoutManager(context.getApplicationContext()));
         exerciseList.setItemAnimator(new SlideInUpAnimator());
     }

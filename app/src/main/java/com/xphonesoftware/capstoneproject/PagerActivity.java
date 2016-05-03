@@ -9,14 +9,20 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.xphonesoftware.capstoneproject.DetailsScreen.ExercisesAdapter;
+
 /**
  * Created by alecmedina on 5/1/16.
  */
-public class PagerActivity extends FragmentActivity {
+public class PagerActivity extends FragmentActivity implements MainFragment.UpdateScreenListener,
+        ExercisesAdapter.SetExercise {
 
     private static final int NUM_PAGES = 3;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
+    private MainFragment mainFragment;
+    private DetailFragment detailFragment;
+    private OverViewFragment overViewFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +44,17 @@ public class PagerActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    public void updateScreen() {
+        detailFragment.setNewAdapter();
+    }
+
+    @Override
+    public void setExercise(String exercise) {
+        overViewFragment.setOverViewExercise(exercise);
+        pager.setCurrentItem(3);
+    }
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
         public ScreenSlidePagerAdapter(FragmentManager fragmentManager) {
@@ -47,11 +64,14 @@ public class PagerActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new MainActivity();
+                mainFragment = new MainFragment();
+                return mainFragment;
             } else if (position == 1) {
-                return new DetailActivity();
+                detailFragment = new DetailFragment();
+                return detailFragment;
             } else {
-                return new OverViewActivity();
+                overViewFragment = new OverViewFragment();
+                return overViewFragment;
             }
         }
 

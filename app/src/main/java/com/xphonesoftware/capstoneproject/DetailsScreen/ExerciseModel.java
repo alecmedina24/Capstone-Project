@@ -19,6 +19,7 @@ public class ExerciseModel {
     private long date;
     private Cursor cursor;
     private int exerciseCount;
+    private Context context;
 
     private static final String[] EXERCISE_PROJECTION = new String[] {
             ExerciseContract.ExerciseEntry.COLUMN_DATE,
@@ -33,10 +34,9 @@ public class ExerciseModel {
     private static final int INDEX_REPS = 3;
 
     public ExerciseModel(Context context) {
-        cursor = context.getContentResolver().
-                query(ExerciseContract.ExerciseEntry.CONTENT_URI, EXERCISE_PROJECTION, null, null, null);
-        exerciseCount = cursor.getCount() - 1;
+        this.context = context;
         date = System.currentTimeMillis();
+        queryData();
     }
 
     public ExerciseModel(String exercise, String weight, String reps) {
@@ -68,6 +68,8 @@ public class ExerciseModel {
         String repValue;
         long itemDate;
 
+        queryData();
+
         for (int i = exerciseCount; i >= 0; i--) {
             cursor.moveToPosition(i);
             itemDate = (cursor.getLong(INDEX_DATE));
@@ -87,5 +89,11 @@ public class ExerciseModel {
         calendar.setTimeInMillis(date);
         String day = format.format(calendar.getTime());
         return day;
+    }
+
+    public void queryData() {
+        cursor = context.getContentResolver().
+                query(ExerciseContract.ExerciseEntry.CONTENT_URI, EXERCISE_PROJECTION, null, null, null);
+        exerciseCount = cursor.getCount() - 1;
     }
 }
