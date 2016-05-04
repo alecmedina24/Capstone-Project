@@ -11,7 +11,6 @@
         android:layout_marginTop="80dp"
         android:layout_marginRight="25dp"
         android:layout_marginLeft="25dp"
-        android:textSize="14dp"
         android:text="Speak exercise, weight, and amount of reps
         Example: Tricep press, 25 pounds, 20 reps"
         android:textAlignment="center" />
@@ -22,7 +21,6 @@
         android:layout_height="wrap_content"
         android:text="*Hold phone close to mouth for better results*"
         android:textAlignment="center"
-        android:textSize="14dp"
         android:layout_below="@id/sentence_structure_hint" />
 
     <TextView
@@ -32,7 +30,6 @@
         android:layout_marginRight="25dp"
         android:layout_marginLeft="25dp"
         android:text="Please Repeat Exercise"
-        android:textSize="14dp"
         android:layout_below="@id/sentence_structure_hint"
         android:textColor="@android:color/holo_red_dark"
         android:layout_marginTop="30dp"
@@ -47,8 +44,7 @@
         android:src="@drawable/circular_microphone_button"
         android:clickable="true"
         android:elevation="10dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerInParent="true"/>
 
     <RelativeLayout
         android:id="@+id/primary_text"
@@ -62,7 +58,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="35dp"
         android:layout_marginTop="35dp"
-        android:textSize="16dp"
         android:text="Exercise: " />
 
     <EditText
@@ -72,7 +67,6 @@
         android:layout_toRightOf="@id/exercise_type_label"
         android:layout_marginTop="25dp"
         android:layout_marginRight="35dp"
-        android:textSize="16dp"
         tools:text="leg press"
         android:paddingBottom="7dp" />
 
@@ -83,7 +77,6 @@
         android:layout_below="@id/exercise_type_label"
         android:paddingTop="15dp"
         android:layout_marginLeft="35dp"
-        android:textSize="16dp"
         android:text="Weight:" />
 
     <EditText
@@ -93,7 +86,6 @@
         android:layout_toRightOf="@id/weight_label"
         android:layout_marginRight="35dp"
         android:layout_marginTop="60dp"
-        android:textSize="16dp"
         android:paddingBottom="7dp"
         tools:text="135"
         android:inputType="number" />
@@ -102,7 +94,6 @@
         android:id="@+id/rep_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
         android:text="Rep Count:"
         android:layout_below="@id/weight_label"
         android:layout_marginLeft="35dp"
@@ -115,7 +106,6 @@
         android:layout_toRightOf="@id/rep_label"
         android:layout_marginRight="35dp"
         android:layout_marginTop="97dp"
-        android:textSize="16dp"
         tools:text="15"
         android:paddingBottom="7dp"
         android:inputType="number" />
@@ -132,26 +122,26 @@
 
     <Button
         android:id="@+id/accept_text_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_below="@id/primary_text"
         android:clickable="true"
         android:text="Y"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:elevation="10dp" />
+        android:elevation="2dp" />
 
     <Button
         android:id="@+id/reject_text_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_below="@id/primary_text"
         android:layout_toRightOf="@id/accept_text_button"
         android:clickable="true"
         android:text="N"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:elevation="10dp" />
+        android:elevation="2dp" />
 
     </LinearLayout>
 

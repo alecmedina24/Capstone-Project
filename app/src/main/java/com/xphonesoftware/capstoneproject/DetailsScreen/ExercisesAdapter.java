@@ -16,8 +16,11 @@ import java.util.List;
  */
 public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.ViewHolder> {
 
+    public static final int NUM_COLUMNS = 3;
+
     private List<ExerciseModel> exercises;
     private SetExercise setExercise;
+
 
     public ExercisesAdapter(List<ExerciseModel> exercises, Context context) {
         this.exercises = exercises;
@@ -26,11 +29,12 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.View
 
 
     @Override
-    public ExercisesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View exerciseView = inflater.inflate(R.layout.list_item_layout, parent, false);
+//        View exerciseView = inflater.inflate(R.layout.list_item_layout, parent, false);
+        View exerciseView = inflater.inflate(R.layout.my_day_item, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(exerciseView);
 
@@ -39,45 +43,66 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.View
 
     @Override
     public void onBindViewHolder(final ExercisesAdapter.ViewHolder holder, int position) {
-        final ExerciseModel exercise = exercises.get(position);
+        int row = position / NUM_COLUMNS;
+        int col = position % NUM_COLUMNS;
 
-        TextView exerciseText = holder.exerciseValue;
-        exerciseText.setText(exercise.getExercise());
-        exerciseText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(context, OverViewActivity.class);
-//                intent.putExtra("exercise", exercise.getExercise());
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.setAction(Intent.ACTION_SEND);
-//                context.startActivity(intent);
-                setExercise.setExercise(exercise.getExercise());
-            }
-        });
+        final ExerciseModel exercise = exercises.get(row);
 
-        TextView weightText = holder.weightValue;
-        weightText.setText(exercise.getWeight());
+        TextView textView = holder.testView;
 
-        TextView repText = holder.repValue;
-        repText.setText(exercise.getReps());
+        switch (col) {
+            case 0:
+                textView.setText(exercise.getExercise());
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setExercise.setExercise(exercise.getExercise());
+                    }
+                });
+                break;
+            case 1:
+                textView.setText(exercise.getWeight());
+                break;
+            case 2:
+                textView.setText(exercise.getReps());
+                break;
+        }
+//        TextView exerciseText = holder.exerciseValue;
+//        exerciseText.setText(exercise.getExercise());
+//        exerciseText.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                setExercise.setExercise(exercise.getExercise());
+//            }
+//        });
+//
+//        TextView weightText = holder.weightValue;
+//        weightText.setText(exercise.getWeight());
+//
+//        TextView repText = holder.repValue;
+//        repText.setText(exercise.getReps());
+
+
     }
 
     @Override
     public int getItemCount() {
-        return exercises.size();
+        return exercises.size() * NUM_COLUMNS;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView exerciseValue;
-        TextView weightValue;
-        TextView repValue;
+//        TextView exerciseValue;
+//        TextView weightValue;
+//        TextView repValue;
+        TextView testView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            exerciseValue = (TextView) itemView.findViewById(R.id.exercise_value_item);
-            weightValue = (TextView) itemView.findViewById(R.id.weight_value_item);
-            repValue = (TextView) itemView.findViewById(R.id.rep_value_item);
+//            exerciseValue = (TextView) itemView.findViewById(R.id.exercise_value_item);
+//            weightValue = (TextView) itemView.findViewById(R.id.weight_value_item);
+//            repValue = (TextView) itemView.findViewById(R.id.rep_value_item);
+            testView = (TextView) itemView.findViewById(R.id.test_item);
         }
     }
 

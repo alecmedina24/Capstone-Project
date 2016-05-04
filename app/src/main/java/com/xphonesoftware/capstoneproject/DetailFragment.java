@@ -3,12 +3,11 @@ package com.xphonesoftware.capstoneproject;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -32,9 +31,9 @@ public class DetailFragment extends Fragment {
     @Bind(R.id.day_listed)
     TextView dayListedView;
     @Bind(R.id.next_day)
-    Button nextDayButton;
+    TextView nextDayButton;
     @Bind(R.id.previous_day)
-    Button previousDayButton;
+    TextView previousDayButton;
 
     private static final long ONE_DAY = 86400000;
 
@@ -90,9 +89,11 @@ public class DetailFragment extends Fragment {
     }
 
     public void setNewAdapter() {
-        exerciseList.setAdapter(new ExercisesAdapter(exerciseModel.createExercisesList(), context));
-        exerciseList.setLayoutManager(new LinearLayoutManager(context.getApplicationContext()));
+        exerciseList.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), ExercisesAdapter.NUM_COLUMNS));
+//        exerciseList.setLayoutManager(new LinearLayoutManager(context.getApplicationContext()));
         exerciseList.setItemAnimator(new SlideInUpAnimator());
+//        exerciseList.addItemDecoration(new MarginDecoration(context));
+        exerciseList.setAdapter(new ExercisesAdapter(exerciseModel.createExercisesList(), context));
     }
 
     public void setDayHeader() {
