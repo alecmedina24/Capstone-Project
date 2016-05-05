@@ -2,7 +2,9 @@ package com.xphonesoftware.capstoneproject;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,6 +36,8 @@ public class DetailFragment extends Fragment {
     TextView nextDayButton;
     @Bind(R.id.previous_day)
     TextView previousDayButton;
+    @Bind(R.id.floating_action_button)
+    FloatingActionButton fab;
 
     private static final long ONE_DAY = 86400000;
 
@@ -82,6 +86,15 @@ public class DetailFragment extends Fragment {
             }
         });
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getFragmentManager();
+                MainFragment mainFragment = new MainFragment();
+                mainFragment.show(fm, "add_exercise");
+            }
+        });
+
         today = System.currentTimeMillis();
         yesterday = System.currentTimeMillis() - ONE_DAY;
 
@@ -90,17 +103,15 @@ public class DetailFragment extends Fragment {
 
     public void setNewAdapter() {
         exerciseList.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), ExercisesAdapter.NUM_COLUMNS));
-//        exerciseList.setLayoutManager(new LinearLayoutManager(context.getApplicationContext()));
         exerciseList.setItemAnimator(new SlideInUpAnimator());
-//        exerciseList.addItemDecoration(new MarginDecoration(context));
         exerciseList.setAdapter(new ExercisesAdapter(exerciseModel.createExercisesList(), context));
     }
 
     public void setDayHeader() {
         if (exerciseModel.formatDate(day).equals(exerciseModel.formatDate(today))) {
-            dayListedView.setText("TODAY");
+            dayListedView.setText("today");
         } else if (exerciseModel.formatDate(day).equals(exerciseModel.formatDate(yesterday))) {
-            dayListedView.setText("YESTERDAY");
+            dayListedView.setText("yesterday");
         } else {
             dayListedView.setText(exerciseModel.formatDate(day));
         }

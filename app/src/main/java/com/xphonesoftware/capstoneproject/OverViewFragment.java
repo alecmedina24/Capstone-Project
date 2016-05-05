@@ -3,7 +3,7 @@ package com.xphonesoftware.capstoneproject;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,17 +55,8 @@ public class OverViewFragment extends Fragment implements AdapterView.OnItemSele
 
         setNewPickerAdapter();
 
-//        exercise = getIntent().getStringExtra("exercise");
-
-//        if (exercise != null) {
-//            String formattedExercise = exercise.replaceAll("\\s", "");
-//            exerciseBuffer = new StringBuffer(formattedExercise);
-//            exerciseSelected = true;
-//            overViewModel.setExerciseCheck(exerciseBuffer);
-//        } else {
-            exerciseSelected = false;
-            overViewModel.setExerciseCheck(new StringBuffer("-1"));
-//        }
+        exerciseSelected = false;
+        overViewModel.setExerciseCheck(new StringBuffer("-1"));
 
         exercisePickerList = overViewModel.createPickerList();
 
@@ -76,7 +67,7 @@ public class OverViewFragment extends Fragment implements AdapterView.OnItemSele
 
     public void setNewExerciseAdapter() {
         overViewList.setAdapter(new OverViewAdapter(overViewModel.createExerciseList()));
-        overViewList.setLayoutManager(new LinearLayoutManager(context.getApplicationContext()));
+        overViewList.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), OverViewAdapter.NUM_COLUMNS));
         overViewList.setItemAnimator(new SlideInUpAnimator());
     }
 
@@ -94,7 +85,7 @@ public class OverViewFragment extends Fragment implements AdapterView.OnItemSele
         if (!exerciseSelected) {
             String exercise = (String) parent.getItemAtPosition(position);
             setExerciseBuffer(exercise);
-        }else {
+        } else {
             int index = overViewModel.getPickerItemIndex(exercisePickerList, exerciseBuffer);
             parent.setSelection(index);
             exerciseSelected = false;

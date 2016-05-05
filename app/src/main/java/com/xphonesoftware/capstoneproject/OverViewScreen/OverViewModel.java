@@ -20,6 +20,7 @@ public class OverViewModel {
     private long date;
     private Cursor cursor;
     private int exerciseCount;
+    private Context context;
 
     private static final String[] EXERCISE_PROJECTION = new String[]{
             ExerciseContract.ExerciseEntry.COLUMN_DATE,
@@ -34,7 +35,8 @@ public class OverViewModel {
     private static final int INDEX_REPS = 3;
 
     public OverViewModel(Context context) {
-        cursor = context.getContentResolver().
+        this.context = context;
+        cursor = this.context.getContentResolver().
                 query(ExerciseContract.ExerciseEntry.CONTENT_URI, EXERCISE_PROJECTION, null, null, null);
         exerciseCount = cursor.getCount() - 1;
     }
@@ -66,6 +68,10 @@ public class OverViewModel {
         long date;
         String weight;
         String reps;
+
+        cursor = context.getContentResolver().
+                query(ExerciseContract.ExerciseEntry.CONTENT_URI, EXERCISE_PROJECTION, null, null, null);
+        exerciseCount = cursor.getCount() - 1;
 
         for (int i = exerciseCount; i >= 0; i--) {
             cursor.moveToPosition(i);

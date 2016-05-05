@@ -12,26 +12,39 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent" />
 
-    <include layout="@layout/list_headers_layout"
-        android:id="@+id/list_headers"
-        android:layout_below="@id/day_header"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+    <!--<include layout="@layout/list_headers_layout"-->
+        <!--android:id="@+id/list_headers"-->
+        <!--android:layout_below="@id/day_header"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content" />-->
 
     <include layout="@layout/list_layout"
         android:id="@+id/list_layout"
-        android:layout_below="@id/list_headers"
-        android:layout_height="400dp"
-        android:layout_width="match_parent" />
+        android:layout_below="@id/day_header"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_above="@+id/adView" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/floating_action_button"
+        android:clickable="true"
+        android:layout_alignBottom="@+id/list_layout"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_add_white_18dp"
+        android:elevation="10dp"/>
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_gravity="center_horizontal"
         ads:adSize="BANNER"
         ads:adUnitId="@string/banner_ad_unit_id"
-        android:layout_below="@id/list_layout">
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
     </com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

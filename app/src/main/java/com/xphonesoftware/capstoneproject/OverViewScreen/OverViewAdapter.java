@@ -1,7 +1,9 @@
 package com.xphonesoftware.capstoneproject.OverViewScreen;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,10 @@ import java.util.List;
  */
 public class OverViewAdapter extends RecyclerView.Adapter<OverViewAdapter.ViewHolder> {
 
+    public static final int NUM_COLUMNS = 3;
+
     private List<OverViewModel> exercises;
+    private Context context;
 
     public OverViewAdapter(List<OverViewModel> exercises) {
         this.exercises = exercises;
@@ -24,46 +29,97 @@ public class OverViewAdapter extends RecyclerView.Adapter<OverViewAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View exerciseView = inflater.inflate(R.layout.exercise_overview_list_item, parent, false);
+        View exerciseView = inflater.inflate(R.layout.my_day_item, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(exerciseView);
 
         return viewHolder;
     }
 
+    public int convertDipToPx(int pixel){
+        float scale = context.getResources().getDisplayMetrics().density;
+        int dips=(int) ((pixel * scale) + 0.5f);
+        return dips;
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        OverViewModel exercise = exercises.get(position);
+        int row = position / NUM_COLUMNS;
+        int col = position % NUM_COLUMNS;
 
-        TextView date = holder.dateView;
-        date.setText(exercise.formatDate(exercise.getDate()));
+        TextView textView = holder.dayView;
 
-        TextView weight = holder.weightView;
-        weight.setText(exercise.getWeight());
+        int edgeDips = convertDipToPx(16);
+        int insideDips = convertDipToPx(2);
 
-        TextView reps = holder.repView;
-        reps.setText(exercise.getReps());
+        if (row == 0) {
+            switch (col) {
+                case 0:
+                    textView.setText("Date");
+                    textView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+                    textView.setPadding(edgeDips, 0, 0, 0);
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                    textView.setTypeface(null, Typeface.BOLD);
+                    break;
+                case 1:
+                    textView.setText("Weight");
+                    textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    textView.setPadding(insideDips, 0, insideDips, 0);
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                    textView.setTypeface(null, Typeface.BOLD);
+                    break;
+                case 2:
+                    textView.setText("Reps");
+                    textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    textView.setPadding(0, 0, edgeDips, 0);
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                    textView.setTypeface(null, Typeface.BOLD);
+            }
+        } else {
+
+            final OverViewModel exercise = exercises.get(row - 1);
+
+            switch (col) {
+                case 0:
+                    textView.setText(exercise.formatDate(exercise.getDate()));
+                    textView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+                    textView.setPadding(edgeDips, 0, insideDips, 0);
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                    textView.setTypeface(null, Typeface.NORMAL);
+                    break;
+                case 1:
+                    textView.setText(exercise.getWeight());
+                    textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    textView.setPadding(0, 0, insideDips, 0);
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                    textView.setTypeface(null, Typeface.NORMAL);
+                    break;
+                case 2:
+                    textView.setText(exercise.getReps());
+                    textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    textView.setPadding(0, 0, edgeDips, 0);
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                    textView.setTypeface(null, Typeface.NORMAL);
+                    break;
+            }
+        }
     }
 
     @Override
     public int getItemCount() {
-        return exercises.size();
+        return exercises.size() * 3 + 3;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView dateView;
-        TextView weightView;
-        TextView repView;
+        TextView dayView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            dateView = (TextView) itemView.findViewById(R.id.overview_date_value);
-            weightView = (TextView) itemView.findViewById(R.id.overview_weight_value);
-            repView = (TextView) itemView.findViewById(R.id.overview_reps_value);
+            dayView = (TextView) itemView.findViewById(R.id.test_item);
         }
     }
 }
