@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.RemoteViews;
 
 import com.xphonesoftware.capstoneproject.R;
@@ -18,7 +19,7 @@ public class ExerciseWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if (intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
+        if (intent.hasExtra(WIDGET_IDS_KEY)) {
             int[] ids = intent.getExtras().getIntArray(WIDGET_IDS_KEY);
             this.onUpdate(context, AppWidgetManager.getInstance(context), ids);
         } else {
@@ -33,6 +34,7 @@ public class ExerciseWidgetProvider extends AppWidgetProvider {
 
             Intent intent = new Intent(context, ExerciseWidgetService.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
+            intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
                     R.layout.widget_layout);
@@ -41,6 +43,7 @@ public class ExerciseWidgetProvider extends AppWidgetProvider {
             remoteViews.setEmptyView(R.id.widget_list, R.id.no_exercises);
 
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
+            appWidgetManager.notifyAppWidgetViewDataChanged(widgetId, R.id.widget_list);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }

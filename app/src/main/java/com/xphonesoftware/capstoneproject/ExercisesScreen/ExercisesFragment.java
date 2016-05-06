@@ -71,8 +71,9 @@ public class ExercisesFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     public void setNewPickerAdapter() {
+        exercisePickerList = exercisesModel.createPickerList();
         ArrayAdapter<String> pickerAdapter = new ArrayAdapter<>
-                (context, android.R.layout.simple_spinner_item, exercisesModel.createPickerList());
+                (context, android.R.layout.simple_spinner_item, exercisePickerList);
 
         pickerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         exerciseSpinner.setAdapter(pickerAdapter);
@@ -102,6 +103,7 @@ public class ExercisesFragment extends Fragment implements AdapterView.OnItemSel
         setExerciseBuffer(exercise);
         exerciseSelected = true;
         exercisesModel.setExerciseCheck(exerciseBuffer);
+        setNewPickerAdapter();
         int index = exercisesModel.getPickerItemIndex(exercisePickerList, exerciseBuffer);
         adapterView.setSelection(index);
         setNewExerciseAdapter();

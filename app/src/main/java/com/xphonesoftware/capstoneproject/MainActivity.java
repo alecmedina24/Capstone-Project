@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
     @Override
     public void updateScreen() {
         myDayFragment.setNewAdapter();
+        exercisesFragment.setNewPickerAdapter();
+        exercisesFragment.setNewExerciseAdapter();
         updateMyWidgets(this);
     }
 

@@ -37,9 +37,7 @@ public class ExercisesModel {
 
     public ExercisesModel(Context context) {
         this.context = context;
-        cursor = this.context.getContentResolver().
-                query(ExerciseContract.ExerciseEntry.CONTENT_URI, EXERCISE_PROJECTION, null, null, null);
-        exerciseCount = cursor.getCount() - 1;
+        queryData();
     }
 
     public ExercisesModel(long date, String weight, String reps) {
@@ -70,9 +68,7 @@ public class ExercisesModel {
         String weight;
         String reps;
 
-        cursor = context.getContentResolver().
-                query(ExerciseContract.ExerciseEntry.CONTENT_URI, EXERCISE_PROJECTION, null, null, null);
-        exerciseCount = cursor.getCount() - 1;
+        queryData();
 
         for (int i = exerciseCount; i >= 0; i--) {
             cursor.moveToPosition(i);
@@ -95,6 +91,8 @@ public class ExercisesModel {
         ArrayList<String> pickerList = new ArrayList<>();
         ArrayList<String> checkList = new ArrayList<>();
         boolean onList = true;
+
+        queryData();
 
         pickerList.add(context.getString(R.string.picker_header));
         checkList.add(context.getString(R.string.formatted_picker_header));
@@ -147,5 +145,11 @@ public class ExercisesModel {
         calendar.setTimeInMillis(date);
         String day = format.format(calendar.getTime());
         return day;
+    }
+
+    public void queryData() {
+        cursor = context.getContentResolver().
+                query(ExerciseContract.ExerciseEntry.CONTENT_URI, EXERCISE_PROJECTION, null, null, null);
+        exerciseCount = cursor.getCount() - 1;
     }
 }

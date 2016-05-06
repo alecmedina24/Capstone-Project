@@ -91,12 +91,6 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
                     setExercise.setExercise(exercise.getExercise());
                 }
             });
-            textView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    return false;
-                }
-            });
 
             switch (col) {
                 case 0:
