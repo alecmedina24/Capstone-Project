@@ -1,6 +1,5 @@
 package com.xphonesoftware.capstoneproject;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,7 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -22,22 +21,18 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainFragment extends DialogFragment {
+public class AddExerciseDialog extends DialogFragment {
     @Bind(R.id.exercise_type_content)
     EditText exerciseContentText;
     @Bind(R.id.weight_content)
     EditText weightContentText;
     @Bind(R.id.rep_count)
     EditText repContentText;
-    //    @Bind(R.id.accept_text_button)
-//    Button acceptWorkoutButton;
-//    @Bind(R.id.reject_text_button)
-//    Button rejectWorkoutButton;
     @Bind(R.id.voice_record)
     ImageButton recordVoiceButton;
 
     private static final int SPEECH_REQUEST_CODE = 0;
-    private static final String ERROR_CODE = "1";
+    private static final String ERROR_CODE = "-1";
     private String spokenWorkout;
     private String weightSubString;
     private String repSubstring;
@@ -46,79 +41,11 @@ public class MainFragment extends DialogFragment {
     private ContentValues exerciseData;
     private Context context;
     private UpdateScreenListener updateScreenListener;
-    private MainFragment mainFragment;
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        mainFragment = this;
-//
-//        ViewGroup rootView = (ViewGroup) inflater.inflate(
-//                R.layout.fragment_main, container, false);
-//
-//        context = getContext();
-//
-//        Stetho.initializeWithDefaults(context);
-//        ButterKnife.bind(this, rootView);
-
-//        updateScreenListener = (UpdateScreenListener) getActivity();
-
-//        Dialog dialog = getDialog();
-//        dialog.setTitle("Add Exercise");
-
-//        recordVoiceButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                displaySpeechRecognizer();
-//            }
-//        });
-//        acceptWorkoutButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String exercise = String.valueOf(exerciseContentText.getText());
-//                if (!exercise.equals("")) {
-//                    String weight = String.valueOf(weightContentText.getText());
-//                    String reps = String.valueOf(repContentText.getText());
-//                    date = System.currentTimeMillis();
-//                    exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_DATE, date);
-//                    exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_EXERCISE, exercise);
-//                    exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_WEIGHT, weight);
-//                    exerciseData.put(ExerciseContract.ExerciseEntry.COLUMN_REPS, reps);
-//                    context.getContentResolver().insert(ExerciseContract.ExerciseEntry.CONTENT_URI, exerciseData);
-//                    exerciseContentText.setText("");
-//                    weightContentText.setText("");
-//                    repContentText.setText("");
-//
-//                    updateScreenListener.updateScreen();
-//
-//                    mainFragment.dismiss();
-//
-//                    Toast.makeText(context.getApplicationContext(), "Exercise added", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(context.getApplicationContext(), "Please add exercise", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//        rejectWorkoutButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                exerciseContentText.setText("");
-//                weightContentText.setText("");
-//                repContentText.setText("");
-//                Toast.makeText(context.getApplicationContext(), "Exercise deleted", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        exerciseData = new ContentValues();
-
-//        return rootView;
-//    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_main, null);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.add_exercise_dialog, null);
 
         ButterKnife.bind(this, view);
 
@@ -135,10 +62,10 @@ public class MainFragment extends DialogFragment {
             }
         });
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), AlertDialog.THEME_HOLO_LIGHT);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);
-        builder.setTitle("Add Exercise");
-        builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+        builder.setTitle(context.getString(R.string.add_exercise_title));
+        builder.setPositiveButton(context.getString(R.string.positive_button), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String exercise = String.valueOf(exerciseContentText.getText());
@@ -159,13 +86,15 @@ public class MainFragment extends DialogFragment {
 
                     dialog.dismiss();
 
-                    Toast.makeText(context.getApplicationContext(), "Exercise added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context.getApplicationContext(),
+                            R.string.notify_exercise_added, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context.getApplicationContext(), "Exercise not added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context.getApplicationContext(),
+                            R.string.notify_exercise_not_added, Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        builder.setNegativeButton("Reject", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(context.getString(R.string.negative_button), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -183,8 +112,8 @@ public class MainFragment extends DialogFragment {
             if (Character.isDigit(i)) {
                 String exercise = speech.substring(0, index - 1);
                 weightSubString = speech.substring(index - 1);
-                Log.v("Exercise Type", exercise);
-                Log.v("Remaining String", weightSubString);
+//                Log.v("Exercise Type", exercise);
+//                Log.v("Remaining String", weightSubString);
                 return exercise;
             }
         }
@@ -194,17 +123,17 @@ public class MainFragment extends DialogFragment {
     public String parseWeight() {
         int index = 0;
         if (weightSubString != null) {
-            if (!weightSubString.contains("pounds")) {
+            if (!weightSubString.contains(context.getString(R.string.pounds_check))) {
                 hasWeight = false;
-                return "N/A";
+                return context.getString(R.string.no_weight_value);
             }
             for (char i : weightSubString.toCharArray()) {
                 index++;
                 if (Character.isLetter(i)) {
                     String weight = weightSubString.substring(0, index - 1);
                     repSubstring = weightSubString.substring(index - 1);
-                    Log.v("Weight", weight);
-                    Log.v("Remaining String", repSubstring);
+//                    Log.v("Weight", weight);
+//                    Log.v("Remaining String", repSubstring);
                     hasWeight = true;
                     return weight;
                 }
@@ -222,25 +151,25 @@ public class MainFragment extends DialogFragment {
                     index++;
                     if (Character.isDigit(i)) {
                         String subString1 = repSubstring.substring(index - 1);
-                        Log.v("First Substring", subString1);
+//                        Log.v("First Substring", subString1);
                         for (char j : subString1.toCharArray()) {
                             index2++;
                             if (Character.isAlphabetic(j)) {
                                 String reps = subString1.substring(0, index2 - 1);
-                                Log.v("Rep Count", reps);
+//                                Log.v("Rep Count", reps);
                                 return reps;
                             }
                         }
                     }
                 }
-            } else {
-                int index3 = 0;
-                for (char i : weightSubString.toCharArray()) {
-                    index3++;
-                    if (Character.isLetter(i)) {
-                        String noWeightRepCount = weightSubString.substring(0, index3 - 1);
-                        return noWeightRepCount;
-                    }
+            }
+        } else if (repSubstring == null && weightSubString != null) {
+            int index3 = 0;
+            for (char i : weightSubString.toCharArray()) {
+                index3++;
+                if (Character.isLetter(i)) {
+                    String noWeightRepCount = weightSubString.substring(0, index3 - 1);
+                    return noWeightRepCount;
                 }
             }
         }
@@ -265,12 +194,12 @@ public class MainFragment extends DialogFragment {
             List<String> results = data.getStringArrayListExtra(
                     RecognizerIntent.EXTRA_RESULTS);
             spokenWorkout = results.get(0);
-            Log.v("Full Exercise", spokenWorkout);
+//            Log.v("Full Exercise", spokenWorkout);
             String exercise = parseExercise(spokenWorkout);
             String weight = parseWeight();
             String reps = parseCount();
             if (exercise == ERROR_CODE || weight == ERROR_CODE || reps == ERROR_CODE) {
-                Toast.makeText(context.getApplicationContext(), "Please Repeat Exercise", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context.getApplicationContext(), R.string.repeat_exercise, Toast.LENGTH_SHORT).show();
             } else {
                 exerciseContentText.setText(exercise);
                 weightContentText.setText(weight);

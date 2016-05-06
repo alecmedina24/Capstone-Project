@@ -19,8 +19,6 @@ public class ExerciseContract {
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_EXERCISES).build();
         public static final String CONTENT_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + PATH_EXERCISES;
-        public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + PATH_EXERCISES;
         public static final String TABLE_NAME = "exercises";
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_EXERCISE = "exercise";

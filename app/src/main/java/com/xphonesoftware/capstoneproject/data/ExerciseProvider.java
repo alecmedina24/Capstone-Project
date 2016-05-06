@@ -16,6 +16,8 @@ public class ExerciseProvider extends ContentProvider {
     private ExerciseDbHelper dbHelper;
     private static final UriMatcher uriMatcher = buildUriMatcher();
     private static final int EXERCISES = 100;
+    private static final String UNKNOWN_URI = "Unknown uri: ";
+    private static final String INSERT_FAILED = "Failed to insert row into ";
 
     @Override
     public boolean onCreate() {
@@ -33,7 +35,7 @@ public class ExerciseProvider extends ContentProvider {
                         projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException(UNKNOWN_URI + uri);
         }
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
@@ -47,7 +49,7 @@ public class ExerciseProvider extends ContentProvider {
             case EXERCISES:
                 return ExerciseContract.ExerciseEntry.CONTENT_TYPE;
             default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException(UNKNOWN_URI + uri);
         }
     }
 
@@ -64,11 +66,11 @@ public class ExerciseProvider extends ContentProvider {
                 if (_id > 0) {
                     returnUri = ExerciseContract.ExerciseEntry.buildExerciseUri(_id);
                 } else {
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                    throw new android.database.SQLException(INSERT_FAILED + uri);
                 }
                 break;
             default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException(UNKNOWN_URI + uri);
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return returnUri;
@@ -91,7 +93,7 @@ public class ExerciseProvider extends ContentProvider {
                         selectionArgs);
                 break;
             default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException(UNKNOWN_URI + uri);
         }
         if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);

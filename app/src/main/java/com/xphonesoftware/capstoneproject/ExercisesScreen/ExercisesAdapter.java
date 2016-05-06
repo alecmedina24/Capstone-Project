@@ -1,4 +1,4 @@
-package com.xphonesoftware.capstoneproject.OverViewScreen;
+package com.xphonesoftware.capstoneproject.ExercisesScreen;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -16,14 +16,14 @@ import java.util.List;
 /**
  * Created by alecmedina on 4/30/16.
  */
-public class OverViewAdapter extends RecyclerView.Adapter<OverViewAdapter.ViewHolder> {
+public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.ViewHolder> {
 
     public static final int NUM_COLUMNS = 3;
 
-    private List<OverViewModel> exercises;
+    private List<ExercisesModel> exercises;
     private Context context;
 
-    public OverViewAdapter(List<OverViewModel> exercises) {
+    public ExercisesAdapter(List<ExercisesModel> exercises) {
         this.exercises = exercises;
     }
 
@@ -80,7 +80,7 @@ public class OverViewAdapter extends RecyclerView.Adapter<OverViewAdapter.ViewHo
             }
         } else {
 
-            final OverViewModel exercise = exercises.get(row - 1);
+            final ExercisesModel exercise = exercises.get(row - 1);
 
             switch (col) {
                 case 0:
@@ -119,7 +119,7 @@ public class OverViewAdapter extends RecyclerView.Adapter<OverViewAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
-            dayView = (TextView) itemView.findViewById(R.id.test_item);
+            dayView = (TextView) itemView.findViewById(R.id.my_day_item);
         }
     }
 }

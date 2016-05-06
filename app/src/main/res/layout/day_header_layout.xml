@@ -10,25 +10,27 @@
         android:id="@+id/previous_day"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:text="&lt;"
+        android:text="@string/previous_day"
         android:textSize="24sp"
         android:textAlignment="center"
-        android:clickable="true" />
+        android:clickable="true"
+        android:contentDescription="@string/previous_day_description"/>
 
     <TextView
         android:id="@+id/day_listed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="today"
+        android:text="@string/today"
         android:textSize="24sp" />
 
     <TextView
         android:id="@+id/next_day"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:text=">"
+        android:text="@string/next_day"
         android:textSize="24sp"
         android:textAlignment="center"
-        android:clickable="true"/>
+        android:clickable="true"
+        android:contentDescription="@string/next_day_description"/>
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.xphonesoftware.capstoneproject;
+package com.xphonesoftware.capstoneproject.MyDayScreen;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.xphonesoftware.capstoneproject.DetailsScreen.ExerciseModel;
-import com.xphonesoftware.capstoneproject.DetailsScreen.ExercisesAdapter;
+import com.xphonesoftware.capstoneproject.AddExerciseDialog;
+import com.xphonesoftware.capstoneproject.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,7 +24,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 /**
  * Created by alecmedina on 4/29/16.
  */
-public class DetailFragment extends Fragment {
+public class MyDayFragment extends Fragment {
 
     @Bind(R.id.list_layout)
     RecyclerView exerciseList;
@@ -41,7 +41,7 @@ public class DetailFragment extends Fragment {
 
     private static final long ONE_DAY = 86400000;
 
-    private ExerciseModel exerciseModel;
+    private MyDayModel myDayModel;
     private long day;
     private long today;
     private long yesterday;
@@ -51,13 +51,13 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.detail_layout, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.my_day_layout, container, false);
 
         context = getContext();
 
         ButterKnife.bind(this, rootView);
 
-        exerciseModel = new ExerciseModel(context);
+        myDayModel = new MyDayModel(context);
 
         setNewAdapter();
 
@@ -70,7 +70,7 @@ public class DetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 day = day - ONE_DAY;
-                exerciseModel.setDate(day);
+                myDayModel.setDate(day);
                 setDayHeader();
                 setNewAdapter();
             }
@@ -80,7 +80,7 @@ public class DetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 day = day + ONE_DAY;
-                exerciseModel.setDate(day);
+                myDayModel.setDate(day);
                 setDayHeader();
                 setNewAdapter();
             }
@@ -90,8 +90,8 @@ public class DetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getFragmentManager();
-                MainFragment mainFragment = new MainFragment();
-                mainFragment.show(fm, "add_exercise");
+                AddExerciseDialog addExerciseDialog = new AddExerciseDialog();
+                addExerciseDialog.show(fm, context.getString(R.string.add_exercise_tag));
             }
         });
 
@@ -102,18 +102,18 @@ public class DetailFragment extends Fragment {
     }
 
     public void setNewAdapter() {
-        exerciseList.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), ExercisesAdapter.NUM_COLUMNS));
+        exerciseList.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), MyDayAdapter.NUM_COLUMNS));
         exerciseList.setItemAnimator(new SlideInUpAnimator());
-        exerciseList.setAdapter(new ExercisesAdapter(exerciseModel.createExercisesList(), context));
+        exerciseList.setAdapter(new MyDayAdapter(myDayModel.createExercisesList(), context));
     }
 
     public void setDayHeader() {
-        if (exerciseModel.formatDate(day).equals(exerciseModel.formatDate(today))) {
-            dayListedView.setText("today");
-        } else if (exerciseModel.formatDate(day).equals(exerciseModel.formatDate(yesterday))) {
-            dayListedView.setText("yesterday");
+        if (myDayModel.formatDate(day).equals(myDayModel.formatDate(today))) {
+            dayListedView.setText(context.getString(R.string.today));
+        } else if (myDayModel.formatDate(day).equals(myDayModel.formatDate(yesterday))) {
+            dayListedView.setText(context.getString(R.string.yesterday));
         } else {
-            dayListedView.setText(exerciseModel.formatDate(day));
+            dayListedView.setText(myDayModel.formatDate(day));
         }
     }
 }

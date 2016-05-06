@@ -1,4 +1,4 @@
-package com.xphonesoftware.capstoneproject;
+package com.xphonesoftware.capstoneproject.ExercisesScreen;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,8 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.xphonesoftware.capstoneproject.OverViewScreen.OverViewAdapter;
-import com.xphonesoftware.capstoneproject.OverViewScreen.OverViewModel;
+import com.xphonesoftware.capstoneproject.R;
 
 import java.util.ArrayList;
 
@@ -24,12 +23,12 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 /**
  * Created by alecmedina on 4/30/16.
  */
-public class OverViewFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class ExercisesFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     @Bind(R.id.overview_list)
     RecyclerView overViewList;
 
-    private OverViewModel overViewModel;
+    private ExercisesModel exercisesModel;
     private Spinner exerciseSpinner;
     private StringBuffer exerciseBuffer;
     private boolean exerciseSelected;
@@ -42,13 +41,13 @@ public class OverViewFragment extends Fragment implements AdapterView.OnItemSele
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.exercise_overview_layout, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.exercises_layout, container, false);
 
         context = getContext();
 
         ButterKnife.bind(this, rootView);
 
-        overViewModel = new OverViewModel(context);
+        exercisesModel = new ExercisesModel(context);
 
         exerciseSpinner = (Spinner) rootView.findViewById(R.id.exercise_type);
         exerciseSpinner.setOnItemSelectedListener(this);
@@ -56,9 +55,9 @@ public class OverViewFragment extends Fragment implements AdapterView.OnItemSele
         setNewPickerAdapter();
 
         exerciseSelected = false;
-        overViewModel.setExerciseCheck(new StringBuffer("-1"));
+        exercisesModel.setExerciseCheck(new StringBuffer("-1"));
 
-        exercisePickerList = overViewModel.createPickerList();
+        exercisePickerList = exercisesModel.createPickerList();
 
         setNewExerciseAdapter();
 
@@ -66,14 +65,14 @@ public class OverViewFragment extends Fragment implements AdapterView.OnItemSele
     }
 
     public void setNewExerciseAdapter() {
-        overViewList.setAdapter(new OverViewAdapter(overViewModel.createExerciseList()));
-        overViewList.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), OverViewAdapter.NUM_COLUMNS));
+        overViewList.setAdapter(new ExercisesAdapter(exercisesModel.createExerciseList()));
+        overViewList.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), ExercisesAdapter.NUM_COLUMNS));
         overViewList.setItemAnimator(new SlideInUpAnimator());
     }
 
     public void setNewPickerAdapter() {
         ArrayAdapter<String> pickerAdapter = new ArrayAdapter<>
-                (context, android.R.layout.simple_spinner_item, overViewModel.createPickerList());
+                (context, android.R.layout.simple_spinner_item, exercisesModel.createPickerList());
 
         pickerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         exerciseSpinner.setAdapter(pickerAdapter);
@@ -86,11 +85,11 @@ public class OverViewFragment extends Fragment implements AdapterView.OnItemSele
             String exercise = (String) parent.getItemAtPosition(position);
             setExerciseBuffer(exercise);
         } else {
-            int index = overViewModel.getPickerItemIndex(exercisePickerList, exerciseBuffer);
+            int index = exercisesModel.getPickerItemIndex(exercisePickerList, exerciseBuffer);
             parent.setSelection(index);
             exerciseSelected = false;
         }
-        overViewModel.setExerciseCheck(exerciseBuffer);
+        exercisesModel.setExerciseCheck(exerciseBuffer);
         setNewExerciseAdapter();
     }
 
@@ -102,8 +101,8 @@ public class OverViewFragment extends Fragment implements AdapterView.OnItemSele
     public void setOverViewExercise(String exercise) {
         setExerciseBuffer(exercise);
         exerciseSelected = true;
-        overViewModel.setExerciseCheck(exerciseBuffer);
-        int index = overViewModel.getPickerItemIndex(exercisePickerList, exerciseBuffer);
+        exercisesModel.setExerciseCheck(exerciseBuffer);
+        int index = exercisesModel.getPickerItemIndex(exercisePickerList, exerciseBuffer);
         adapterView.setSelection(index);
         setNewExerciseAdapter();
     }

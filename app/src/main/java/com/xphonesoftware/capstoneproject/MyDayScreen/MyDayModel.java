@@ -1,4 +1,4 @@
-package com.xphonesoftware.capstoneproject.DetailsScreen;
+package com.xphonesoftware.capstoneproject.MyDayScreen;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -12,7 +12,7 @@ import java.util.Calendar;
 /**
  * Created by alecmedina on 4/29/16.
  */
-public class ExerciseModel {
+public class MyDayModel {
     private String exercise;
     private String weight;
     private String reps;
@@ -33,13 +33,13 @@ public class ExerciseModel {
     private static final int INDEX_WEIGHT = 2;
     private static final int INDEX_REPS = 3;
 
-    public ExerciseModel(Context context) {
+    public MyDayModel(Context context) {
         this.context = context;
         date = System.currentTimeMillis();
         queryData();
     }
 
-    public ExerciseModel(String exercise, String weight, String reps) {
+    public MyDayModel(String exercise, String weight, String reps) {
         this.exercise = exercise;
         this.weight = weight;
         this.reps = reps;
@@ -61,8 +61,8 @@ public class ExerciseModel {
         return reps;
     }
 
-    public ArrayList<ExerciseModel> createExercisesList() {
-        ArrayList<ExerciseModel> exercises = new ArrayList<>();
+    public ArrayList<MyDayModel> createExercisesList() {
+        ArrayList<MyDayModel> exercises = new ArrayList<>();
         String exerciseName;
         String weightValue;
         String repValue;
@@ -77,7 +77,7 @@ public class ExerciseModel {
                 exerciseName = (cursor.getString(INDEX_EXERCISE));
                 weightValue = (cursor.getString(INDEX_WEIGHT));
                 repValue = (cursor.getString(INDEX_REPS));
-                exercises.add(new ExerciseModel(exerciseName, weightValue, repValue));
+                exercises.add(new MyDayModel(exerciseName, weightValue, repValue));
             }
         }
         return exercises;

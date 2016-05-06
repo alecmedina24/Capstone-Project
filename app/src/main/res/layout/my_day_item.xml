@@ -6,12 +6,11 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/test_item"
+        android:id="@+id/my_day_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="72dp"
-        android:gravity="center_vertical"
-        android:text="Test"/>
+        android:gravity="center_vertical" />
 
     <ImageView
         android:id="@+id/my_day_divider"
@@ -19,6 +18,6 @@
         android:layout_height="2dp"
         android:background="@android:color/black"
         android:alpha="0.1"
-        android:layout_below="@id/test_item"/>
+        android:layout_below="@id/my_day_item"/>
 
 </RelativeLayout>

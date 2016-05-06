@@ -9,30 +9,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="Speak exercise, weight, and reps"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:paddingTop="10dp"
+        android:text="@string/structure_text"
         android:textAlignment="center"
-        android:paddingTop="10dp"/>
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/example"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Example: Tricep press, 25 pounds, 20 reps"
-        android:textSize="14sp"
+        android:layout_below="@id/sentence_structure_hint"
+        android:text="@string/example_text"
         android:textAlignment="center"
-        android:layout_below="@id/sentence_structure_hint"/>
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/voice_hint_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/example"
-        android:text="*Hold phone close to mouth for better results*"
-        android:textSize="14sp"
+        android:paddingBottom="20dp"
+        android:text="@string/hint_text"
         android:textAlignment="center"
-        android:paddingBottom="20dp" />
+        android:textSize="14sp" />
 
     <ImageButton
         android:id="@+id/voice_record"
@@ -43,7 +43,8 @@
         android:clickable="true"
         android:elevation="10dp"
         android:scaleType="fitXY"
-        android:src="@drawable/circular_microphone_button" />
+        android:src="@drawable/circular_microphone_button"
+        android:contentDescription="@string/voice_button_description"/>
 
     <RelativeLayout
         android:id="@+id/primary_text"
@@ -57,26 +58,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingRight="16dp">
+            android:paddingEnd="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
-                android:text="Exercise: "
+                android:paddingStart="16dp"
+                android:text="@string/exercise_label"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:paddingLeft="16dp"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/exercise_type_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
-                tools:text="leg press"/>
+                tools:text="leg press" />
 
         </LinearLayout>
-
 
 
         <LinearLayout
@@ -84,53 +84,52 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/exercise_item"
-            android:paddingRight="16dp">
+            android:paddingEnd="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:text="Weight:"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:paddingLeft="16dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingStart="16dp"
+                android:text="@string/weight_label"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/weight_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:inputType="number"
-            tools:text="135" />
+            <EditText
+                android:id="@+id/weight_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:minHeight="48dp"
+                tools:text="135" />
 
         </LinearLayout>
-
 
 
         <LinearLayout
             android:id="@+id/reps_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingRight="16dp"
-            android:layout_below="@id/weight_item">
+            android:layout_below="@id/weight_item"
+            android:paddingEnd="16dp">
 
-        <TextView
-            android:id="@+id/rep_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:text="Rep Count:"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:paddingLeft="16dp"/>
+            <TextView
+                android:id="@+id/rep_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingStart="16dp"
+                android:text="@string/rep_count_label"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/rep_count"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:inputType="number"
-            tools:text="15" />
+            <EditText
+                android:id="@+id/rep_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:minHeight="48dp"
+                tools:text="15" />
 
         </LinearLayout>
 

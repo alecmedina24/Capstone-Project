@@ -1,4 +1,4 @@
-package com.xphonesoftware.capstoneproject.DetailsScreen;
+package com.xphonesoftware.capstoneproject.MyDayScreen;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -16,16 +16,16 @@ import java.util.List;
 /**
  * Created by alecmedina on 4/29/16.
  */
-public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.ViewHolder> {
+public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> {
 
     public static final int NUM_COLUMNS = 3;
 
-    private List<ExerciseModel> exercises;
+    private List<MyDayModel> exercises;
     private SetExercise setExercise;
     private Context context;
 
 
-    public ExercisesAdapter(List<ExerciseModel> exercises, Context context) {
+    public MyDayAdapter(List<MyDayModel> exercises, Context context) {
         this.exercises = exercises;
         setExercise = (SetExercise) context;
     }
@@ -50,11 +50,11 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(final ExercisesAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final MyDayAdapter.ViewHolder holder, int position) {
         int row = position / NUM_COLUMNS;
         int col = position % NUM_COLUMNS;
 
-        TextView textView = holder.testView;
+        TextView textView = holder.myDayView;
 
         int edgeDips = convertDipToPx(16);
         int insideDips = convertDipToPx(2);
@@ -84,7 +84,7 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.View
             }
         } else {
 
-            final ExerciseModel exercise = exercises.get(row - 1);
+            final MyDayModel exercise = exercises.get(row - 1);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -131,11 +131,11 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView testView;
+        TextView myDayView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            testView = (TextView) itemView.findViewById(R.id.test_item);
+            myDayView = (TextView) itemView.findViewById(R.id.my_day_item);
         }
     }
 

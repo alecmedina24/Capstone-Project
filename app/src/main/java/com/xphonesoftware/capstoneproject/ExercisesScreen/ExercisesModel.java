@@ -1,8 +1,9 @@
-package com.xphonesoftware.capstoneproject.OverViewScreen;
+package com.xphonesoftware.capstoneproject.ExercisesScreen;
 
 import android.content.Context;
 import android.database.Cursor;
 
+import com.xphonesoftware.capstoneproject.R;
 import com.xphonesoftware.capstoneproject.data.ExerciseContract;
 
 import java.text.SimpleDateFormat;
@@ -12,7 +13,7 @@ import java.util.Calendar;
 /**
  * Created by alecmedina on 4/30/16.
  */
-public class OverViewModel {
+public class ExercisesModel {
 
     private StringBuffer exerciseCheck;
     private String weight;
@@ -34,14 +35,14 @@ public class OverViewModel {
     private static final int INDEX_WEIGHT = 2;
     private static final int INDEX_REPS = 3;
 
-    public OverViewModel(Context context) {
+    public ExercisesModel(Context context) {
         this.context = context;
         cursor = this.context.getContentResolver().
                 query(ExerciseContract.ExerciseEntry.CONTENT_URI, EXERCISE_PROJECTION, null, null, null);
         exerciseCount = cursor.getCount() - 1;
     }
 
-    public OverViewModel(long date, String weight, String reps) {
+    public ExercisesModel(long date, String weight, String reps) {
         this.date = date;
         this.weight = weight;
         this.reps = reps;
@@ -63,8 +64,8 @@ public class OverViewModel {
         exerciseCheck = check;
     }
 
-    public ArrayList<OverViewModel> createExerciseList() {
-        ArrayList<OverViewModel> exercises = new ArrayList<>();
+    public ArrayList<ExercisesModel> createExerciseList() {
+        ArrayList<ExercisesModel> exercises = new ArrayList<>();
         long date;
         String weight;
         String reps;
@@ -82,7 +83,7 @@ public class OverViewModel {
                     date = cursor.getLong(INDEX_DATE);
                     weight = cursor.getString(INDEX_WEIGHT);
                     reps = cursor.getString(INDEX_REPS);
-                    exercises.add(new OverViewModel(date, weight, reps));
+                    exercises.add(new ExercisesModel(date, weight, reps));
                 }
             }
         }
@@ -95,8 +96,8 @@ public class OverViewModel {
         ArrayList<String> checkList = new ArrayList<>();
         boolean onList = true;
 
-        pickerList.add("Select Exercise");
-        checkList.add("selectexercise");
+        pickerList.add(context.getString(R.string.picker_header));
+        checkList.add(context.getString(R.string.formatted_picker_header));
 
         for (int i = exerciseCount; i >= 0; i--) {
             cursor.moveToPosition(i);

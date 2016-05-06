@@ -8,8 +8,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PagerActivity"
-            android:windowSoftInputMode="stateAlwaysHidden">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,7 +21,20 @@
         <provider
             android:authorities="com.xphonesoftware.capstoneproject"
             android:name=".data.ExerciseProvider"
-            android:exported="false" />
+            android:exported="true" />
+
+        <receiver android:name="com.xphonesoftware.capstoneproject.Widget.ExerciseWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_provider_info"/>
+        </receiver>
+
+        <service android:name="com.xphonesoftware.capstoneproject.Widget.ExerciseWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false"/>
 
     </application>
 
