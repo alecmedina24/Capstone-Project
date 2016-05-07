@@ -125,7 +125,7 @@ public class AddExerciseDialog extends DialogFragment {
         if (weightSubString != null) {
             if (!weightSubString.contains(context.getString(R.string.pounds_check))) {
                 hasWeight = false;
-                return context.getString(R.string.no_weight_value);
+                return "0";
             }
             for (char i : weightSubString.toCharArray()) {
                 index++;

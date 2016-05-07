@@ -16,6 +16,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.xphonesoftware.capstoneproject.AddExerciseDialog;
 import com.xphonesoftware.capstoneproject.R;
+import com.xphonesoftware.capstoneproject.data.DataLoader;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,7 +25,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 /**
  * Created by alecmedina on 4/29/16.
  */
-public class MyDayFragment extends Fragment {
+public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCallback {
 
     @Bind(R.id.list_layout)
     RecyclerView exerciseList;
@@ -53,13 +54,11 @@ public class MyDayFragment extends Fragment {
         super.onCreate(savedInstanceState);
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.my_day_layout, container, false);
 
+        getData();
+
         context = getContext();
 
         ButterKnife.bind(this, rootView);
-
-        myDayModel = new MyDayModel(context);
-
-        setNewAdapter();
 
         final AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
@@ -101,6 +100,13 @@ public class MyDayFragment extends Fragment {
         return rootView;
     }
 
+    public void getData() {
+        DataLoader dataLoader = new DataLoader(getActivity(), this);
+        dataLoader.setMyDayList(exerciseList);
+        dataLoader.setAdapterId(1);
+        getLoaderManager().initLoader(DataLoader.EXERCISE_LOADER, null, dataLoader);
+    }
+
     public void setNewAdapter() {
         exerciseList.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), MyDayAdapter.NUM_COLUMNS));
         exerciseList.setItemAnimator(new SlideInUpAnimator());
@@ -115,5 +121,11 @@ public class MyDayFragment extends Fragment {
         } else {
             dayListedView.setText(myDayModel.formatDate(day));
         }
+    }
+
+    @Override
+    public void setMyDayModel(MyDayModel myDayModel) {
+        this.myDayModel = myDayModel;
+        setNewAdapter();
     }
 }

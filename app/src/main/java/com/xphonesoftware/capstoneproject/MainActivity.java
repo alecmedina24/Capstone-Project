@@ -15,7 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.xphonesoftware.capstoneproject.ExercisesScreen.ExercisesFragment;
+import com.xphonesoftware.capstoneproject.ExerciseScreen.ExerciseFragment;
 import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayAdapter;
 import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayFragment;
 import com.xphonesoftware.capstoneproject.Widget.ExerciseWidgetProvider;
@@ -24,13 +24,13 @@ import com.xphonesoftware.capstoneproject.Widget.ExerciseWidgetProvider;
  * Created by alecmedina on 5/1/16.
  */
 public class MainActivity extends AppCompatActivity implements AddExerciseDialog.UpdateScreenListener,
-        MyDayAdapter.SetExercise {
+        MyDayAdapter.MyDayAdapterCallback {
 
     private static final int NUM_PAGES = 2;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
     private MyDayFragment myDayFragment;
-    private ExercisesFragment exercisesFragment;
+    private ExerciseFragment exerciseFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,15 +80,15 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
 
     @Override
     public void updateScreen() {
-        myDayFragment.setNewAdapter();
-        exercisesFragment.setNewPickerAdapter();
-        exercisesFragment.setNewExerciseAdapter();
-        updateMyWidgets(this);
+        myDayFragment.getData();
+//        exercisesFragment.setNewPickerAdapter();
+//        exercisesFragment.setNewExerciseAdapter();
+//        updateMyWidgets(this);
     }
 
     @Override
     public void setExercise(String exercise) {
-        exercisesFragment.setOverViewExercise(exercise);
+        exerciseFragment.setExercise(exercise);
         pager.setCurrentItem(1);
     }
 
@@ -104,8 +104,8 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
                 myDayFragment = new MyDayFragment();
                 return myDayFragment;
             } else {
-                exercisesFragment = new ExercisesFragment();
-                return exercisesFragment;
+                exerciseFragment = new ExerciseFragment();
+                return exerciseFragment;
             }
         }
 

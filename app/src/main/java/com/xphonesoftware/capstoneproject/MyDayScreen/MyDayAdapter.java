@@ -21,13 +21,17 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
     public static final int NUM_COLUMNS = 3;
 
     private List<MyDayModel> exercises;
-    private SetExercise setExercise;
+    private MyDayAdapterCallback myDayAdapterCallback;
     private Context context;
+
+    public interface MyDayAdapterCallback {
+        void setExercise(String exercise);
+    }
 
 
     public MyDayAdapter(List<MyDayModel> exercises, Context context) {
         this.exercises = exercises;
-        setExercise = (SetExercise) context;
+        myDayAdapterCallback = (MyDayAdapterCallback) context;
     }
 
 
@@ -88,7 +92,7 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setExercise.setExercise(exercise.getExercise());
+                    myDayAdapterCallback.setExercise(exercise.getExercise());
                 }
             });
 
@@ -131,9 +135,5 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
             super(itemView);
             myDayView = (TextView) itemView.findViewById(R.id.my_day_item);
         }
-    }
-
-    public interface SetExercise {
-        void setExercise(String exercise);
     }
 }

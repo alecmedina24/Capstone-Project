@@ -1,6 +1,5 @@
 package com.xphonesoftware.capstoneproject.MyDayScreen;
 
-import android.content.Context;
 import android.database.Cursor;
 
 import com.xphonesoftware.capstoneproject.data.ExerciseContract;
@@ -19,7 +18,6 @@ public class MyDayModel {
     private long date;
     private Cursor cursor;
     private int exerciseCount;
-    private Context context;
 
     private static final String[] EXERCISE_PROJECTION = new String[] {
             ExerciseContract.ExerciseEntry.COLUMN_DATE,
@@ -33,10 +31,10 @@ public class MyDayModel {
     private static final int INDEX_WEIGHT = 2;
     private static final int INDEX_REPS = 3;
 
-    public MyDayModel(Context context) {
-        this.context = context;
+    public MyDayModel(Cursor cursor) {
         date = System.currentTimeMillis();
-        queryData();
+        this.cursor = cursor;
+        exerciseCount = cursor.getCount() - 1;
     }
 
     public MyDayModel(String exercise, String weight, String reps) {
@@ -68,8 +66,6 @@ public class MyDayModel {
         String repValue;
         long itemDate;
 
-        queryData();
-
         for (int i = exerciseCount; i >= 0; i--) {
             cursor.moveToPosition(i);
             itemDate = (cursor.getLong(INDEX_DATE));
@@ -89,11 +85,5 @@ public class MyDayModel {
         calendar.setTimeInMillis(date);
         String day = format.format(calendar.getTime());
         return day;
-    }
-
-    public void queryData() {
-        cursor = context.getContentResolver().
-                query(ExerciseContract.ExerciseEntry.CONTENT_URI, EXERCISE_PROJECTION, null, null, null);
-        exerciseCount = cursor.getCount() - 1;
     }
 }

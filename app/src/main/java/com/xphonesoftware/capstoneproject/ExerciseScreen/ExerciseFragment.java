@@ -1,4 +1,4 @@
-package com.xphonesoftware.capstoneproject.ExercisesScreen;
+package com.xphonesoftware.capstoneproject.ExerciseScreen;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.xphonesoftware.capstoneproject.R;
+import com.xphonesoftware.capstoneproject.data.DataLoader;
 
 import java.util.ArrayList;
 
@@ -23,12 +24,13 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 /**
  * Created by alecmedina on 4/30/16.
  */
-public class ExercisesFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class ExerciseFragment extends Fragment implements AdapterView.OnItemSelectedListener,
+        DataLoader.ExercisesModelCallback {
 
     @Bind(R.id.overview_list)
-    RecyclerView overViewList;
+    RecyclerView exerciseList;
 
-    private ExercisesModel exercisesModel;
+    private ExerciseModel exerciseModel;
     private Spinner exerciseSpinner;
     private StringBuffer exerciseBuffer;
     private boolean exerciseSelected;
@@ -43,35 +45,42 @@ public class ExercisesFragment extends Fragment implements AdapterView.OnItemSel
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.exercises_layout, container, false);
 
+        getData();
+
         context = getContext();
 
         ButterKnife.bind(this, rootView);
 
-        exercisesModel = new ExercisesModel(context);
+//        ExercisesModel exercisesModel = new ExercisesModel(context);
 
         exerciseSpinner = (Spinner) rootView.findViewById(R.id.exercise_type);
         exerciseSpinner.setOnItemSelectedListener(this);
 
-        setNewPickerAdapter();
+//        setNewExerciseAdapter();
+
+//        setNewPickerAdapter();
 
         exerciseSelected = false;
-        exercisesModel.setExerciseCheck(new StringBuffer("-1"));
-
-        exercisePickerList = exercisesModel.createPickerList();
-
-        setNewExerciseAdapter();
+//        exercisesModel.setExerciseCheck(new StringBuffer("-1"));
 
         return rootView;
     }
 
+    public void getData() {
+        DataLoader dataLoader = new DataLoader(getActivity(), this);
+        dataLoader.setMyExerciseList(exerciseList);
+        dataLoader.setAdapterId(2);
+        getLoaderManager().initLoader(DataLoader.EXERCISE_LOADER, null, dataLoader);
+    }
+
     public void setNewExerciseAdapter() {
-        overViewList.setAdapter(new ExercisesAdapter(exercisesModel.createExerciseList()));
-        overViewList.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), ExercisesAdapter.NUM_COLUMNS));
-        overViewList.setItemAnimator(new SlideInUpAnimator());
+        exerciseList.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), ExerciseAdapter.NUM_COLUMNS));
+        exerciseList.setItemAnimator(new SlideInUpAnimator());
+        exerciseList.setAdapter(new ExerciseAdapter(exerciseModel.createExerciseList()));
     }
 
     public void setNewPickerAdapter() {
-        exercisePickerList = exercisesModel.createPickerList();
+        exercisePickerList = exerciseModel.createPickerList();
         ArrayAdapter<String> pickerAdapter = new ArrayAdapter<>
                 (context, android.R.layout.simple_spinner_item, exercisePickerList);
 
@@ -86,11 +95,11 @@ public class ExercisesFragment extends Fragment implements AdapterView.OnItemSel
             String exercise = (String) parent.getItemAtPosition(position);
             setExerciseBuffer(exercise);
         } else {
-            int index = exercisesModel.getPickerItemIndex(exercisePickerList, exerciseBuffer);
+            int index = exerciseModel.getPickerItemIndex(exercisePickerList, exerciseBuffer);
             parent.setSelection(index);
             exerciseSelected = false;
         }
-        exercisesModel.setExerciseCheck(exerciseBuffer);
+        exerciseModel.setExerciseCheck(exerciseBuffer);
         setNewExerciseAdapter();
     }
 
@@ -99,12 +108,13 @@ public class ExercisesFragment extends Fragment implements AdapterView.OnItemSel
 
     }
 
-    public void setOverViewExercise(String exercise) {
+    public void setExercise(String exercise) {
         setExerciseBuffer(exercise);
         exerciseSelected = true;
-        exercisesModel.setExerciseCheck(exerciseBuffer);
+        exerciseModel.setExerciseCheck(exerciseBuffer);
+        exercisePickerList = exerciseModel.createPickerList();
         setNewPickerAdapter();
-        int index = exercisesModel.getPickerItemIndex(exercisePickerList, exerciseBuffer);
+        int index = exerciseModel.getPickerItemIndex(exercisePickerList, exerciseBuffer);
         adapterView.setSelection(index);
         setNewExerciseAdapter();
     }
@@ -112,5 +122,12 @@ public class ExercisesFragment extends Fragment implements AdapterView.OnItemSel
     public void setExerciseBuffer(String exercise) {
         String formattedExercise = exercise.replaceAll("\\s", "");
         exerciseBuffer = new StringBuffer(formattedExercise);
+    }
+
+    @Override
+    public void setExercisesModel(ExerciseModel exerciseModel) {
+        this.exerciseModel = exerciseModel;
+        setNewExerciseAdapter();
+        setNewPickerAdapter();
     }
 }

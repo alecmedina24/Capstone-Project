@@ -1,4 +1,4 @@
-package com.xphonesoftware.capstoneproject.ExercisesScreen;
+package com.xphonesoftware.capstoneproject.ExerciseScreen;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -16,14 +16,14 @@ import java.util.List;
 /**
  * Created by alecmedina on 4/30/16.
  */
-public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.ViewHolder> {
+public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHolder> {
 
     public static final int NUM_COLUMNS = 3;
 
-    private List<ExercisesModel> exercises;
+    private List<ExerciseModel> exercises;
     private Context context;
 
-    public ExercisesAdapter(List<ExercisesModel> exercises) {
+    public ExerciseAdapter(List<ExerciseModel> exercises) {
         this.exercises = exercises;
     }
 
@@ -80,7 +80,7 @@ public class ExercisesAdapter extends RecyclerView.Adapter<ExercisesAdapter.View
             }
         } else {
 
-            final ExercisesModel exercise = exercises.get(row - 1);
+            final ExerciseModel exercise = exercises.get(row - 1);
 
             switch (col) {
                 case 0:

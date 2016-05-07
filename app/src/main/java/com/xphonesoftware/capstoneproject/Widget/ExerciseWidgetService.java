@@ -43,17 +43,17 @@ public class ExerciseWidgetService extends RemoteViewsService {
         public ListRemoteViewsFactory(Context context, Intent intent) {
             this.context = context;
 //            widgetId = Integer.valueOf(intent.getData().getSchemeSpecificPart());
-            exercises = new MyDayModel(getApplicationContext()).createExercisesList();
+//            exercises = new MyDayModel(getApplicationContext()).createExercisesList();
         }
 
         @Override
         public void onCreate() {
-            cursor = queryDatabase();
+//            cursor = queryDatabase();
         }
 
         @Override
         public void onDataSetChanged() {
-            cursor = queryDatabase();
+//            cursor = queryDatabase();
         }
 
         @Override
@@ -101,11 +101,11 @@ public class ExerciseWidgetService extends RemoteViewsService {
             return true;
         }
 
-        private Cursor queryDatabase() {
-            Cursor cursor = getContentResolver().
-                    query(ExerciseContract.ExerciseEntry.CONTENT_URI, EXERCISE_PROJECTION, null, null, null);
-            exercises = new MyDayModel(getApplicationContext()).createExercisesList();
-            return cursor;
-        }
+//        private Cursor queryDatabase() {
+//            Cursor cursor = getContentResolver().
+//                    query(ExerciseContract.ExerciseEntry.CONTENT_URI, EXERCISE_PROJECTION, null, null, null);
+//            exercises = new MyDayModel(getApplicationContext()).createExercisesList();
+//            return cursor;
+//        }
     }
 }

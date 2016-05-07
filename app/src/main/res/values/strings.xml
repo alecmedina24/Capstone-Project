@@ -15,7 +15,6 @@
     <string name="my_day_tab">MY DAY</string>
     <string name="add_exercise_title">Add Exercise</string>
     <string name="positive_button">Accept</string>
-    <string name="negative_button">Reject</string>
     <string name="notify_exercise_added">Exercise added</string>
     <string name="notify_exercise_not_added">Exercise not added</string>
     <string name="pounds_check">pounds</string>
@@ -27,4 +26,5 @@
     <string name="previous_day_description">Previous Day</string>
     <string name="next_day_description">Next Day</string>
     <string name="voice_button_description">Speak Exercise Button</string>
+    <string name="negative_button">Cancel</string>
 </resources>
