@@ -43,7 +43,7 @@ public class ExerciseFragment extends Fragment implements AdapterView.OnItemSele
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.exercises_layout, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.exercises_fragment_layout, container, false);
 
         getData();
 
@@ -51,24 +51,16 @@ public class ExerciseFragment extends Fragment implements AdapterView.OnItemSele
 
         ButterKnife.bind(this, rootView);
 
-//        ExercisesModel exercisesModel = new ExercisesModel(context);
-
         exerciseSpinner = (Spinner) rootView.findViewById(R.id.exercise_type);
         exerciseSpinner.setOnItemSelectedListener(this);
 
-//        setNewExerciseAdapter();
-
-//        setNewPickerAdapter();
-
         exerciseSelected = false;
-//        exercisesModel.setExerciseCheck(new StringBuffer("-1"));
 
         return rootView;
     }
 
     public void getData() {
         DataLoader dataLoader = new DataLoader(getActivity(), this);
-        dataLoader.setMyExerciseList(exerciseList);
         dataLoader.setAdapterId(2);
         getLoaderManager().initLoader(DataLoader.EXERCISE_LOADER, null, dataLoader);
     }

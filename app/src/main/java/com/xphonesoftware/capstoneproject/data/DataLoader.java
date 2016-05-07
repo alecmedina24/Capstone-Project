@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.RecyclerView;
-import android.widget.Spinner;
 
 import com.xphonesoftware.capstoneproject.ExerciseScreen.ExerciseFragment;
 import com.xphonesoftware.capstoneproject.ExerciseScreen.ExerciseModel;
@@ -33,9 +31,6 @@ public class DataLoader implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int INDEX_REPS = 3;
 
     private Activity activity;
-    private RecyclerView myDayList;
-    private RecyclerView myExerciseList;
-    private Spinner spinner;
     private ExerciseModel exerciseModel;
     private MyDayModel myDayModel;
     private int adapterId;
@@ -58,18 +53,6 @@ public class DataLoader implements LoaderManager.LoaderCallbacks<Cursor> {
     public DataLoader(Activity activity, ExerciseFragment fragment){
         this.activity = activity;
         exerciseModelCallback = fragment;
-    }
-
-    public void setMyDayList(RecyclerView myDayList) {
-        this.myDayList = myDayList;
-    }
-
-    public void setMyExerciseList(RecyclerView myExerciseList) {
-        this.myExerciseList = myExerciseList;
-    }
-
-    public void setSpinner(Spinner spinner) {
-        this.spinner = spinner;
     }
 
     public void setAdapterId(int id) {

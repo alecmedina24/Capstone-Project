@@ -52,7 +52,7 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.my_day_layout, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.my_day_fragment_layout, container, false);
 
         getData();
 
@@ -102,7 +102,6 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
 
     public void getData() {
         DataLoader dataLoader = new DataLoader(getActivity(), this);
-        dataLoader.setMyDayList(exerciseList);
         dataLoader.setAdapterId(1);
         getLoaderManager().initLoader(DataLoader.EXERCISE_LOADER, null, dataLoader);
     }

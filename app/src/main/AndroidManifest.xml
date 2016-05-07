@@ -20,7 +20,7 @@
 
         <provider
             android:authorities="com.xphonesoftware.capstoneproject"
-            android:name=".data.ExerciseProvider"
+            android:name=".data.DataProvider"
             android:exported="true" />
 
         <receiver android:name="com.xphonesoftware.capstoneproject.Widget.ExerciseWidgetProvider">

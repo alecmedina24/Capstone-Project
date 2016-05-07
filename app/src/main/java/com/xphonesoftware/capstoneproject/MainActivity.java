@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import com.xphonesoftware.capstoneproject.ExerciseScreen.ExerciseFragment;
 import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayAdapter;
 import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayFragment;
+import com.xphonesoftware.capstoneproject.WeightScreen.WeightFragment;
 import com.xphonesoftware.capstoneproject.Widget.ExerciseWidgetProvider;
 
 /**
@@ -26,11 +27,12 @@ import com.xphonesoftware.capstoneproject.Widget.ExerciseWidgetProvider;
 public class MainActivity extends AppCompatActivity implements AddExerciseDialog.UpdateScreenListener,
         MyDayAdapter.MyDayAdapterCallback {
 
-    private static final int NUM_PAGES = 2;
+    private static final int NUM_PAGES = 3;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
     private MyDayFragment myDayFragment;
     private ExerciseFragment exerciseFragment;
+    private WeightFragment weightFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.my_day_tab));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.exercises_tab));
+        tabLayout.addTab(tabLayout.newTab().setText("MY WEIGHT"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         pager = (ViewPager) findViewById(R.id.view_pager);
@@ -81,8 +84,7 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
     @Override
     public void updateScreen() {
         myDayFragment.getData();
-//        exercisesFragment.setNewPickerAdapter();
-//        exercisesFragment.setNewExerciseAdapter();
+        exerciseFragment.getData();
 //        updateMyWidgets(this);
     }
 
@@ -103,9 +105,12 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
             if (position == 0) {
                 myDayFragment = new MyDayFragment();
                 return myDayFragment;
-            } else {
+            } else if (position == 1){
                 exerciseFragment = new ExerciseFragment();
                 return exerciseFragment;
+            } else {
+                weightFragment = new WeightFragment();
+                return weightFragment;
             }
         }
 
