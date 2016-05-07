@@ -12,9 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.facebook.stetho.Stetho;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.xphonesoftware.capstoneproject.AddExerciseDialog;
+import com.xphonesoftware.capstoneproject.AddDialogs.AddExerciseDialog;
 import com.xphonesoftware.capstoneproject.R;
 import com.xphonesoftware.capstoneproject.data.DataLoader;
 
@@ -55,6 +56,8 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.my_day_fragment_layout, container, false);
 
         getData();
+
+        Stetho.initializeWithDefaults(getContext());
 
         context = getContext();
 

@@ -1,4 +1,4 @@
-package com.xphonesoftware.capstoneproject;
+package com.xphonesoftware.capstoneproject.AddDialogs;
 
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.xphonesoftware.capstoneproject.R;
 import com.xphonesoftware.capstoneproject.data.ExerciseContract;
 
 import java.util.List;
@@ -40,7 +41,11 @@ public class AddExerciseDialog extends DialogFragment {
     private boolean hasWeight;
     private ContentValues exerciseData;
     private Context context;
-    private UpdateScreenListener updateScreenListener;
+    private UpdateExerciseScreenListener updateExerciseScreenListener;
+
+    public interface UpdateExerciseScreenListener {
+        void updateScreen();
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -53,7 +58,7 @@ public class AddExerciseDialog extends DialogFragment {
 
         context = getContext();
 
-        updateScreenListener = (UpdateScreenListener) getActivity();
+        updateExerciseScreenListener = (UpdateExerciseScreenListener) getActivity();
 
         recordVoiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +87,7 @@ public class AddExerciseDialog extends DialogFragment {
                     weightContentText.setText("");
                     repContentText.setText("");
 
-                    updateScreenListener.updateScreen();
+                    updateExerciseScreenListener.updateScreen();
 
                     dialog.dismiss();
 
@@ -207,9 +212,5 @@ public class AddExerciseDialog extends DialogFragment {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public interface UpdateScreenListener {
-        void updateScreen();
     }
 }

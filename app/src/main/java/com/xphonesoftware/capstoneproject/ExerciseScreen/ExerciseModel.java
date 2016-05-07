@@ -3,8 +3,6 @@ package com.xphonesoftware.capstoneproject.ExerciseScreen;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.xphonesoftware.capstoneproject.data.ExerciseContract;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,13 +19,6 @@ public class ExerciseModel {
     private Cursor cursor;
     private int exerciseCount;
     private Context context;
-
-    private static final String[] EXERCISE_PROJECTION = new String[]{
-            ExerciseContract.ExerciseEntry.COLUMN_DATE,
-            ExerciseContract.ExerciseEntry.COLUMN_EXERCISE,
-            ExerciseContract.ExerciseEntry.COLUMN_WEIGHT,
-            ExerciseContract.ExerciseEntry.COLUMN_REPS
-    };
 
     private static final int INDEX_DATE = 0;
     private static final int INDEX_EXERCISE = 1;

@@ -15,6 +15,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.xphonesoftware.capstoneproject.AddDialogs.AddExerciseDialog;
+import com.xphonesoftware.capstoneproject.AddDialogs.AddWeightDialog;
 import com.xphonesoftware.capstoneproject.ExerciseScreen.ExerciseFragment;
 import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayAdapter;
 import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayFragment;
@@ -24,8 +26,8 @@ import com.xphonesoftware.capstoneproject.Widget.ExerciseWidgetProvider;
 /**
  * Created by alecmedina on 5/1/16.
  */
-public class MainActivity extends AppCompatActivity implements AddExerciseDialog.UpdateScreenListener,
-        MyDayAdapter.MyDayAdapterCallback {
+public class MainActivity extends AppCompatActivity implements AddExerciseDialog.UpdateExerciseScreenListener,
+        MyDayAdapter.MyDayAdapterCallback, AddWeightDialog.UpdateWeightScreenListener {
 
     private static final int NUM_PAGES = 3;
     private ViewPager pager;
@@ -82,10 +84,14 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
     }
 
     @Override
+    public void updateWeightScreen() {
+        weightFragment.getData();
+    }
+
+    @Override
     public void updateScreen() {
         myDayFragment.getData();
         exerciseFragment.getData();
-//        updateMyWidgets(this);
     }
 
     @Override

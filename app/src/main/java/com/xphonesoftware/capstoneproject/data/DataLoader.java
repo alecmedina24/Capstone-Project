@@ -11,6 +11,8 @@ import com.xphonesoftware.capstoneproject.ExerciseScreen.ExerciseFragment;
 import com.xphonesoftware.capstoneproject.ExerciseScreen.ExerciseModel;
 import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayFragment;
 import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayModel;
+import com.xphonesoftware.capstoneproject.WeightScreen.WeightFragment;
+import com.xphonesoftware.capstoneproject.WeightScreen.WeightModel;
 
 /**
  * Created by alecmedina on 5/6/16.
@@ -18,24 +20,26 @@ import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayModel;
 public class DataLoader implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final int EXERCISE_LOADER = 0;
+    public static final int WEIGHT_LOADER = 1;
     private static final String[] EXERCISE_PROJECTION = new String[]{
             ExerciseContract.ExerciseEntry.COLUMN_DATE,
             ExerciseContract.ExerciseEntry.COLUMN_EXERCISE,
             ExerciseContract.ExerciseEntry.COLUMN_WEIGHT,
             ExerciseContract.ExerciseEntry.COLUMN_REPS
     };
-
-    private static final int INDEX_DATE = 0;
-    private static final int INDEX_EXERCISE = 1;
-    private static final int INDEX_WEIGHT = 2;
-    private static final int INDEX_REPS = 3;
+    private static final String[] WEIGHT_PROJECTION = new String[] {
+            WeightContract.WeightEntry.COLUMN_DATE,
+            WeightContract.WeightEntry.COLUMN_WEIGHT
+    };
 
     private Activity activity;
     private ExerciseModel exerciseModel;
     private MyDayModel myDayModel;
+    private WeightModel weightModel;
     private int adapterId;
     private MyDayModelCallback myDayModelCallback;
     private ExercisesModelCallback exerciseModelCallback;
+    private WeightModelCallback weightModelCallback;
 
     public interface MyDayModelCallback {
         void setMyDayModel(MyDayModel myDayModel);
@@ -43,6 +47,10 @@ public class DataLoader implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public interface ExercisesModelCallback {
         void setExercisesModel(ExerciseModel exerciseModel);
+    }
+
+    public interface WeightModelCallback {
+        void setWeightModel(WeightModel weightModel);
     }
 
     public DataLoader(Activity activity, MyDayFragment fragment) {
@@ -55,6 +63,11 @@ public class DataLoader implements LoaderManager.LoaderCallbacks<Cursor> {
         exerciseModelCallback = fragment;
     }
 
+    public DataLoader(Activity activity, WeightFragment fragment) {
+        this.activity = activity;
+        weightModelCallback = fragment;
+    }
+
     public void setAdapterId(int id) {
         adapterId = id;
     }
@@ -65,7 +78,9 @@ public class DataLoader implements LoaderManager.LoaderCallbacks<Cursor> {
             case EXERCISE_LOADER:
                 return new CursorLoader(activity, ExerciseContract.ExerciseEntry.CONTENT_URI,
                         EXERCISE_PROJECTION, null, null, null);
-
+            case WEIGHT_LOADER:
+                return new CursorLoader(activity, WeightContract.WeightEntry.CONTENT_URI,
+                        WEIGHT_PROJECTION, null, null, null);
             default:
                 return null;
         }
@@ -77,6 +92,8 @@ public class DataLoader implements LoaderManager.LoaderCallbacks<Cursor> {
             setMyDayModel(data);
         } else if (adapterId == 2) {
             setExerciseModel(data);
+        } else {
+            setWeightModel(data);
         }
     }
 
@@ -93,5 +110,10 @@ public class DataLoader implements LoaderManager.LoaderCallbacks<Cursor> {
     public void setExerciseModel(Cursor cursor) {
         exerciseModel = new ExerciseModel(cursor);
         exerciseModelCallback.setExercisesModel(exerciseModel);
+    }
+
+    public void setWeightModel(Cursor cursor) {
+        weightModel = new WeightModel(cursor);
+        weightModelCallback.setWeightModel(weightModel);
     }
 }

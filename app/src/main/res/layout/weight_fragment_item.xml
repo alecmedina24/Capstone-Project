@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/weigh_fragment_item"
+        android:id="@+id/weight_fragment_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="72dp"
@@ -17,6 +17,6 @@
         android:layout_height="2dp"
         android:background="@android:color/black"
         android:alpha="0.1"
-        android:layout_below="@id/weigh_fragment_item"/>
+        android:layout_below="@id/weight_fragment_item"/>
 
 </RelativeLayout>
