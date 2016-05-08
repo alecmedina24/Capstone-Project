@@ -2,23 +2,13 @@ package com.xphonesoftware.capstoneproject.WeightScreen;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.data.DataPoint;
-import com.google.android.gms.fitness.data.DataSet;
-import com.google.android.gms.fitness.data.DataSource;
-import com.google.android.gms.fitness.data.DataType;
-import com.google.android.gms.fitness.data.Field;
 import com.xphonesoftware.capstoneproject.R;
 
 import java.text.DateFormat;
@@ -26,20 +16,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by alecmedina on 5/6/16.
  */
-public class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.ViewHolder>
-        implements GoogleApiClient.OnConnectionFailedListener {
+public class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.ViewHolder> {
 
     public static final int NUM_COLUMNS = 3;
-    private static final String TAG = "weight";
 
     private List<WeightModel> weights;
     private Context context;
-    private GoogleApiClient googleApiClient;
 
     public WeightAdapter(List<WeightModel> weights, Context context) {
         this.weights = weights;
@@ -54,9 +40,6 @@ public class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.ViewHolder
         View WeightView = inflater.inflate(R.layout.weight_fragment_item, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(WeightView);
-
-        googleApiClient = new GoogleApiClient.Builder(context)
-                .addApi(Fitness.HISTORY_API).build();
 
         return viewHolder;
     }
@@ -133,50 +116,6 @@ public class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.ViewHolder
         }
     }
 
-    public void pushWeightData(int dayWeight) {
-        // Set a start and end time for our data, using a start time of 1 hour before this moment.
-        Calendar cal = Calendar.getInstance();
-        Date now = new Date();
-        cal.setTime(now);
-        long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.HOUR_OF_DAY, -1);
-        long startTime = cal.getTimeInMillis();
-
-        // Create a data source
-        DataSource dataSource = new DataSource.Builder()
-                .setAppPackageName(context.getPackageName())
-                .setDataType(DataType.TYPE_WEIGHT)
-                .setType(DataSource.TYPE_RAW)
-                .build();
-
-        // Create a data set
-        int weight = dayWeight;
-        DataSet dataSet = DataSet.create(dataSource);
-        // For each data point, specify a start time, end time, and the data value -- in this case,
-        // the number of new steps.
-        DataPoint dataPoint = dataSet.createDataPoint()
-                .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS);
-        dataPoint.getValue(Field.FIELD_WEIGHT).setInt(weight);
-        dataSet.add(dataPoint);
-
-        // Then, invoke the History API to insert the data and await the result, which is
-        // possible here because of the {@link AsyncTask}. Always include a timeout when calling
-        // await() to prevent hanging that can occur from the service being shutdown because
-        // of low memory or other conditions.
-        Log.i(TAG, "Inserting the dataset in the History API.");
-        com.google.android.gms.common.api.Status insertStatus =
-                Fitness.HistoryApi.insertData(googleApiClient, dataSet)
-                        .await(1, TimeUnit.MINUTES);
-
-        // Before querying the data, check to see if the insertion succeeded.
-        if (!insertStatus.isSuccess()) {
-            Log.i(TAG, "There was a problem inserting the dataset.");
-        }
-
-        // At this point, the data has been inserted and can be read.
-        Log.i(TAG, "Data insert was successful!");
-    }
-
     public String formatDate(long date) {
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy");
         Calendar calendar = Calendar.getInstance();
@@ -196,11 +135,6 @@ public class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return weights.size() * 3 + 3;
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,7 +15,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.fitness.Fitness;
 import com.xphonesoftware.capstoneproject.AddDialogs.AddExerciseDialog;
 import com.xphonesoftware.capstoneproject.AddDialogs.AddWeightDialog;
 import com.xphonesoftware.capstoneproject.ExerciseScreen.ExerciseFragment;
@@ -27,7 +32,8 @@ import com.xphonesoftware.capstoneproject.Widget.ExerciseWidgetProvider;
  * Created by alecmedina on 5/1/16.
  */
 public class MainActivity extends AppCompatActivity implements AddExerciseDialog.UpdateExerciseScreenListener,
-        MyDayAdapter.MyDayAdapterCallback, AddWeightDialog.UpdateWeightScreenListener {
+        MyDayAdapter.MyDayAdapterCallback, AddWeightDialog.UpdateWeightScreenListener,
+        GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     private static final int NUM_PAGES = 3;
     private ViewPager pager;
@@ -35,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
     private MyDayFragment myDayFragment;
     private ExerciseFragment exerciseFragment;
     private WeightFragment weightFragment;
+    private GoogleApiClient googleApiClient;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +62,12 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
 
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(Fitness.HISTORY_API)
+                .build();
+
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -72,6 +85,33 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
 
             }
         });
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.v("GoogleApiClient", "Failed to connect");
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        Log.v("GoogleApiClient", "Connected");
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        googleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        googleApiClient.disconnect();
     }
 
     @Override

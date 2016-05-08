@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.facebook.stetho.Stetho;
 import com.xphonesoftware.capstoneproject.AddDialogs.AddWeightDialog;
 import com.xphonesoftware.capstoneproject.R;
 import com.xphonesoftware.capstoneproject.data.DataLoader;
@@ -40,8 +39,6 @@ public class WeightFragment extends Fragment implements DataLoader.WeightModelCa
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.weight_fragment_layout, container, false);
 
         getData();
-
-        Stetho.initializeWithDefaults(getContext());
 
         ButterKnife.bind(this, rootView);
 
