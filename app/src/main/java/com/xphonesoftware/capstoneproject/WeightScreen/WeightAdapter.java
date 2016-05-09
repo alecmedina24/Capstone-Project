@@ -60,24 +60,26 @@ public class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.ViewHolder
         int edgeDips = convertDipToPx(16);
         int insideDips = convertDipToPx(2);
 
+        //The first three rows are the heading so check for position 0,1,2
+        // (column 1,2,3) and set the title
         if (row == 0) {
             switch (col) {
                 case 0:
-                    textView.setText("day");
+                    textView.setText(R.string.weight_day_header);
                     textView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
                     textView.setPadding(edgeDips, 0, 0, 0);
                     textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                     textView.setTypeface(null, Typeface.BOLD);
                     break;
                 case 1:
-                    textView.setText("time");
+                    textView.setText(R.string.weight_time_header);
                     textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     textView.setPadding(insideDips, 0, insideDips, 0);
                     textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                     textView.setTypeface(null, Typeface.BOLD);
                     break;
                 case 2:
-                    textView.setText("weight");
+                    textView.setText(R.string.weight_header);
                     textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     textView.setPadding(0, 0, edgeDips, 0);
                     textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
@@ -86,9 +88,6 @@ public class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.ViewHolder
         } else {
 
             final WeightModel weight = weights.get(row - 1);
-//            if (row == 1 && col == 0) {
-//                pushWeightData(Integer.valueOf(weight.getWeight()));
-//            }
 
             switch (col) {
                 case 0:

@@ -1,6 +1,5 @@
 package com.xphonesoftware.capstoneproject.ExerciseScreen;
 
-import android.content.Context;
 import android.database.Cursor;
 
 import java.text.SimpleDateFormat;
@@ -18,7 +17,6 @@ public class ExerciseModel {
     private long date;
     private Cursor cursor;
     private int exerciseCount;
-    private Context context;
 
     private static final int INDEX_DATE = 0;
     private static final int INDEX_EXERCISE = 1;
@@ -26,8 +24,6 @@ public class ExerciseModel {
     private static final int INDEX_REPS = 3;
 
     public ExerciseModel(Cursor cursor) {
-//        this.context = context;
-//        queryData();
         this.cursor = cursor;
         exerciseCount = cursor.getCount() - 1;
         exerciseCheck = new StringBuffer("-1");
@@ -61,8 +57,6 @@ public class ExerciseModel {
         String weight;
         String reps;
 
-//        queryData();
-
         for (int i = exerciseCount; i >= 0; i--) {
             cursor.moveToPosition(i);
             String exercise = cursor.getString(INDEX_EXERCISE);
@@ -80,13 +74,14 @@ public class ExerciseModel {
         return exercises;
     }
 
+    //Creates list for spinner in ExercisesFragment
     public ArrayList<String> createPickerList() {
         ArrayList<String> pickerList = new ArrayList<>();
         ArrayList<String> checkList = new ArrayList<>();
         boolean onList = true;
 
-//        queryData();
-
+        //This is the first position in the spinner, values in spinner are parsed to make sure
+        //exercises are not repeated as each one represents a category
         pickerList.add("Select Exercise");
         checkList.add("selectexercise");
 
@@ -118,6 +113,7 @@ public class ExerciseModel {
         return pickerList;
     }
 
+    //Gets index of spinner item
     public int getPickerItemIndex(ArrayList<String> list, StringBuffer buffer) {
 
         int index = -1;
@@ -139,10 +135,4 @@ public class ExerciseModel {
         String day = format.format(calendar.getTime());
         return day;
     }
-
-//    public void queryData() {
-//        cursor = context.getContentResolver().
-//                query(ExerciseContract.ExerciseEntry.CONTENT_URI, EXERCISE_PROJECTION, null, null, null);
-//        exerciseCount = cursor.getCount() - 1;
-//    }
 }

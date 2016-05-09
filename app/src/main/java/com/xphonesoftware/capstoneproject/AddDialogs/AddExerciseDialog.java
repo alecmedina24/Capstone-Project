@@ -43,6 +43,7 @@ public class AddExerciseDialog extends DialogFragment {
     private Context context;
     private UpdateExerciseScreenListener updateExerciseScreenListener;
 
+    //Callback to MainActivity to update the screen
     public interface UpdateExerciseScreenListener {
         void updateScreen();
     }
@@ -74,7 +75,10 @@ public class AddExerciseDialog extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String exercise = String.valueOf(exerciseContentText.getText());
+                //Ensures an exercise is always listed before adding
                 if (!exercise.equals("")) {
+                    //The values put into the database are pulled from the EditText fields
+                    //in case the user manually added/edited items
                     String weight = String.valueOf(weightContentText.getText());
                     String reps = String.valueOf(repContentText.getText());
                     date = System.currentTimeMillis();
@@ -110,6 +114,8 @@ public class AddExerciseDialog extends DialogFragment {
         return builder.create();
     }
 
+    //For voice recognizer only: parses the returned string for the exercise and substrings the rest
+    //for further parsing
     public String parseExercise(String speech) {
         int index = 0;
         for (char i : speech.toCharArray()) {
@@ -125,6 +131,8 @@ public class AddExerciseDialog extends DialogFragment {
         return ERROR_CODE;
     }
 
+    //For voice recognizer only: uses the substring assigned in parseExercise to get weight if present
+    //and substrings the rest
     public String parseWeight() {
         int index = 0;
         if (weightSubString != null) {
@@ -147,6 +155,7 @@ public class AddExerciseDialog extends DialogFragment {
         return ERROR_CODE;
     }
 
+    //For voice recognizer only:  uses the substrings assigned in parseWeight to get the count
     public String parseCount() {
         int index = 0;
         int index2 = 0;

@@ -27,4 +27,14 @@
     <string name="next_day_description">Next Day</string>
     <string name="voice_button_description">Speak Exercise Button</string>
     <string name="negative_button">Cancel</string>
+    <string name="weight_day_header">Day</string>
+    <string name="weight_time_header">Time</string>
+    <string name="weight_header">Weight</string>
+    <string name="weight_tab">MY WEIGHT</string>
+    <string name="my_day_exercise_header">Exercise</string>
+    <string name="my_day_weight_header">Weight</string>
+    <string name="my_day_reps_header">Reps</string>
+    <string name="exercise_date_header">Date</string>
+    <string name="exercise_weight_header">Weight</string>
+    <string name="exercise_reps_header">Reps</string>
 </resources>

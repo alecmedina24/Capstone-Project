@@ -41,6 +41,8 @@ public class DataLoader implements LoaderManager.LoaderCallbacks<Cursor> {
     private ExercisesModelCallback exerciseModelCallback;
     private WeightModelCallback weightModelCallback;
 
+    //Set of callback interfaces and constructors that supplies the information to be used
+    //in each fragment
     public interface MyDayModelCallback {
         void setMyDayModel(MyDayModel myDayModel);
     }
@@ -68,6 +70,8 @@ public class DataLoader implements LoaderManager.LoaderCallbacks<Cursor> {
         weightModelCallback = fragment;
     }
 
+    //Each time data is called to be loaded the fragment identifies which model to fill
+    //out with this id
     public void setAdapterId(int id) {
         adapterId = id;
     }
