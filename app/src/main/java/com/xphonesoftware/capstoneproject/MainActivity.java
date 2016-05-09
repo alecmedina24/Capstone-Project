@@ -1,9 +1,5 @@
 package com.xphonesoftware.capstoneproject;
 
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,7 +29,6 @@ import com.xphonesoftware.capstoneproject.ExerciseScreen.ExerciseFragment;
 import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayAdapter;
 import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayFragment;
 import com.xphonesoftware.capstoneproject.WeightScreen.WeightFragment;
-import com.xphonesoftware.capstoneproject.Widget.ExerciseWidgetProvider;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -222,16 +217,6 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
         public int getCount() {
             return NUM_PAGES;
         }
-    }
-
-    public static void updateMyWidgets(Context context) {
-        AppWidgetManager man = AppWidgetManager.getInstance(context);
-        int[] ids = man.getAppWidgetIds(
-                new ComponentName(context, ExerciseWidgetProvider.class));
-        Intent updateIntent = new Intent();
-        updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        updateIntent.putExtra(ExerciseWidgetProvider.WIDGET_IDS_KEY, ids);
-        context.sendBroadcast(updateIntent);
     }
 }
 

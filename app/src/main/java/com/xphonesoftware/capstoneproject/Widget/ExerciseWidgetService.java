@@ -17,10 +17,6 @@ import java.util.ArrayList;
  */
 public class ExerciseWidgetService extends RemoteViewsService {
 
-    public static final int COL_REPS = 3;
-    public static final int COL_WEIGHT = 2;
-    public static final int COL_EXERCISE = 1;
-    public static final int COL_DATE = 0;
     private final String[] EXERCISE_PROJECTION = new String[]{
             ExerciseContract.ExerciseEntry.COLUMN_DATE,
             ExerciseContract.ExerciseEntry.COLUMN_EXERCISE,
@@ -35,25 +31,23 @@ public class ExerciseWidgetService extends RemoteViewsService {
 
     public class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         private Context context;
-//        private int widgetId;
         private Cursor cursor;
         private ArrayList<MyDayModel> exercises;
 
 
         public ListRemoteViewsFactory(Context context, Intent intent) {
             this.context = context;
-//            widgetId = Integer.valueOf(intent.getData().getSchemeSpecificPart());
-//            exercises = new MyDayModel(getApplicationContext()).createExercisesList();
+            queryDatabase();
         }
 
         @Override
         public void onCreate() {
-//            cursor = queryDatabase();
+            cursor = queryDatabase();
         }
 
         @Override
         public void onDataSetChanged() {
-//            cursor = queryDatabase();
+            cursor = queryDatabase();
         }
 
         @Override
@@ -74,9 +68,9 @@ public class ExerciseWidgetService extends RemoteViewsService {
 
             final MyDayModel exercise = exercises.get(position);
 
-            remoteViews.setTextViewText(R.id.widget_exercise, exercise.getExercise());
-            remoteViews.setTextViewText(R.id.widget_weight, exercise.getWeight());
-            remoteViews.setTextViewText(R.id.widget_reps, exercise.getReps());
+            remoteViews.setTextViewText(R.id.widget_exercise, "Exercise: " + exercise.getExercise());
+            remoteViews.setTextViewText(R.id.widget_weight,"Weight: " + exercise.getWeight());
+            remoteViews.setTextViewText(R.id.widget_reps,"Reps: " + exercise.getReps());
 
             return remoteViews;
         }
@@ -101,11 +95,11 @@ public class ExerciseWidgetService extends RemoteViewsService {
             return true;
         }
 
-//        private Cursor queryDatabase() {
-//            Cursor cursor = getContentResolver().
-//                    query(ExerciseContract.ExerciseEntry.CONTENT_URI, EXERCISE_PROJECTION, null, null, null);
-//            exercises = new MyDayModel(getApplicationContext()).createExercisesList();
-//            return cursor;
-//        }
+        private Cursor queryDatabase() {
+            Cursor cursor = getContentResolver().
+                    query(ExerciseContract.ExerciseEntry.CONTENT_URI, EXERCISE_PROJECTION, null, null, null);
+            exercises = new MyDayModel(cursor).createExercisesList();
+            return cursor;
+        }
     }
 }

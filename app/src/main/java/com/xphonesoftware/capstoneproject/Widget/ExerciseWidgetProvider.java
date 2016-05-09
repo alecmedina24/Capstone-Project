@@ -32,6 +32,8 @@ public class ExerciseWidgetProvider extends AppWidgetProvider {
         for (int i = 0; i < appWidgetIds.length; i++) {
             int widgetId = appWidgetIds[i];
 
+
+
             Intent intent = new Intent(context, ExerciseWidgetService.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));

@@ -125,6 +125,17 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
     @Override
     public void setMyDayModel(MyDayModel myDayModel) {
         this.myDayModel = myDayModel;
+//        updateMyWidgets(myDayModel);
         setNewAdapter();
     }
+
+//    public void updateMyWidgets(MyDayModel myDayModel) {
+//        AppWidgetManager man = AppWidgetManager.getInstance(context);
+//        int[] ids = man.getAppWidgetIds(
+//                new ComponentName(context, ExerciseWidgetProvider.class));
+//        Intent updateIntent = new Intent();
+//        updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+//        updateIntent.putExtra(ExerciseWidgetProvider.WIDGET_IDS_KEY, ids);
+//        context.sendBroadcast(updateIntent);
+//    }
 }

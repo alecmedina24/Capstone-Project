@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,6 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingEnd="10dp"
+        android:paddingStart="16dp"
+        android:textSize="14sp"
         android:textColor="@android:color/black"
         tools:text="Tricep Press"/>
 
@@ -16,15 +18,28 @@
         android:id="@+id/widget_weight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/widget_exercise"
         android:paddingEnd="10dp"
         android:textColor="@android:color/black"
+        android:textSize="14sp"
         tools:text="50"/>
 
     <TextView
         android:id="@+id/widget_reps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/widget_weight"
         android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:paddingEnd="16dp"
         tools:text="20"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/my_day_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/widget_exercise"
+        android:background="@android:color/black"
+        android:alpha="0.1" />
+
+</RelativeLayout>
