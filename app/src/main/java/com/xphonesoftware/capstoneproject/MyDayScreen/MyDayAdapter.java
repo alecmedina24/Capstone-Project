@@ -98,6 +98,16 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
                 }
             });
 
+//            textView.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//                    context.getContentResolver()
+//                        .delete(ExerciseContract.ExerciseEntry.CONTENT_URI.buildUpon()
+//                                .appendPath(String.valueOf(exercise.getId())).build(), null, null);
+//                    return true;
+//                }
+//            });
+
             switch (col) {
                 case 0:
                     textView.setText(exercise.getExercise());

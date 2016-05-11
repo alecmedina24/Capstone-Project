@@ -13,6 +13,7 @@ public class MyDayModel {
     private String exercise;
     private String weight;
     private String reps;
+    private int id;
     private long date;
     private Cursor cursor;
     private int exerciseCount;
@@ -32,6 +33,7 @@ public class MyDayModel {
         this.exercise = exercise;
         this.weight = weight;
         this.reps = reps;
+//        this.id = id;
     }
 
     public void setDate(long date) {
@@ -50,11 +52,16 @@ public class MyDayModel {
         return reps;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public ArrayList<MyDayModel> createExercisesList() {
         ArrayList<MyDayModel> exercises = new ArrayList<>();
         String exerciseName;
         String weightValue;
         String repValue;
+        int id;
         long itemDate;
 
         for (int i = exerciseCount; i >= 0; i--) {

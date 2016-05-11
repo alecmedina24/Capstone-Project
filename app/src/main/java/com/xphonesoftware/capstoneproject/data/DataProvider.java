@@ -96,7 +96,18 @@ public class DataProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase exerciseDatabase = exerciseDbHelper.getWritableDatabase();
+        final int match = uriMatcher.match(uri);
+        int deletePosition = 0;
+
+        switch (match) {
+            case EXERCISES:
+                deletePosition = exerciseDatabase
+                        .delete(ExerciseContract.ExerciseEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return deletePosition;
     }
 
     @Override
