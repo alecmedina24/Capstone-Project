@@ -18,10 +18,11 @@ public class ExerciseModel {
     private Cursor cursor;
     private int exerciseCount;
 
-    private static final int INDEX_DATE = 0;
-    private static final int INDEX_EXERCISE = 1;
-    private static final int INDEX_WEIGHT = 2;
-    private static final int INDEX_REPS = 3;
+    private static final long INDEX_ID = 0;
+    private static final int INDEX_DATE = 1;
+    private static final int INDEX_EXERCISE = 2;
+    private static final int INDEX_WEIGHT = 3;
+    private static final int INDEX_REPS = 4;
 
     public ExerciseModel(Cursor cursor) {
         this.cursor = cursor;

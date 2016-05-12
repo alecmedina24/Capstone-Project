@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.xphonesoftware.capstoneproject.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,17 +22,20 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
     public static final int NUM_COLUMNS = 3;
 
     private List<MyDayModel> exercises;
+    private ArrayList<Long> pickedExercises;
     private MyDayAdapterCallback myDayAdapterCallback;
     private Context context;
 
     public interface MyDayAdapterCallback {
         void setExercise(String exercise);
-    }
 
+        void setPickedList(ArrayList<Long> pickedList);
+    }
 
     public MyDayAdapter(List<MyDayModel> exercises, Context context) {
         this.exercises = exercises;
         myDayAdapterCallback = (MyDayAdapterCallback) context;
+        pickedExercises = new ArrayList<>();
     }
 
 
@@ -47,9 +51,9 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
         return viewHolder;
     }
 
-    public int convertDipToPx(int pixel){
+    public int convertDipToPx(int pixel) {
         float scale = context.getResources().getDisplayMetrics().density;
-        int dips=(int) ((pixel * scale) + 0.5f);
+        int dips = (int) ((pixel * scale) + 0.5f);
         return dips;
     }
 
@@ -58,7 +62,7 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
         int row = position / NUM_COLUMNS;
         int col = position % NUM_COLUMNS;
 
-        TextView textView = holder.myDayView;
+        final TextView textView = holder.myDayView;
 
         int edgeDips = convertDipToPx(16);
         int insideDips = convertDipToPx(2);
@@ -98,15 +102,14 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
                 }
             });
 
-//            textView.setOnLongClickListener(new View.OnLongClickListener() {
-//                @Override
-//                public boolean onLongClick(View v) {
-//                    context.getContentResolver()
-//                        .delete(ExerciseContract.ExerciseEntry.CONTENT_URI.buildUpon()
-//                                .appendPath(String.valueOf(exercise.getId())).build(), null, null);
-//                    return true;
-//                }
-//            });
+            textView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    pickedExercises.add(exercise.getId());
+                    myDayAdapterCallback.setPickedList(pickedExercises);
+                    return true;
+                }
+            });
 
             switch (col) {
                 case 0:

@@ -31,7 +31,9 @@ import com.xphonesoftware.capstoneproject.ExerciseScreen.ExerciseFragment;
 import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayAdapter;
 import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayFragment;
 import com.xphonesoftware.capstoneproject.WeightScreen.WeightFragment;
+import com.xphonesoftware.capstoneproject.data.ExerciseContract;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -46,12 +48,15 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
 
     private static final int NUM_PAGES = 3;
     private static final String TAG = "weight";
+    private static final String KEY_NAME = "_id";
+
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
     private MyDayFragment myDayFragment;
     private ExerciseFragment exerciseFragment;
     private WeightFragment weightFragment;
     private GoogleApiClient googleApiClient;
+    private ArrayList<Long> deleteList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -145,6 +150,12 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
+                if (deleteList != null) {
+                    for (int i = 0; i < deleteList.size(); i++) {
+                        getContentResolver().delete(ExerciseContract.ExerciseEntry
+                                        .CONTENT_URI, KEY_NAME + "=" + String.valueOf(deleteList.get(i)), null);
+                    }
+                }
                 return true;
 
             default:
@@ -210,6 +221,11 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
     public void setExercise(String exercise) {
         exerciseFragment.setExercise(exercise);
         pager.setCurrentItem(1);
+    }
+
+    @Override
+    public void setPickedList(ArrayList<Long> pickedList) {
+        deleteList = pickedList;
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
