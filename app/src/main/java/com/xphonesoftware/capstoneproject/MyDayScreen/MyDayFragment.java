@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -48,6 +49,7 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
     private long today;
     private long yesterday;
     private Context context;
+    private MyDayAdapter myDayAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,7 +114,9 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
     public void setNewAdapter() {
         exerciseList.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), MyDayAdapter.NUM_COLUMNS));
         exerciseList.setItemAnimator(new SlideInUpAnimator());
-        exerciseList.setAdapter(new MyDayAdapter(myDayModel.createExercisesList(), context));
+        myDayAdapter = new MyDayAdapter(myDayModel.createExercisesList(),
+                context, (AppCompatActivity) getActivity());
+        exerciseList.setAdapter(myDayAdapter);
     }
 
     public void setDayHeader() {

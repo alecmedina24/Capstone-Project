@@ -2,14 +2,23 @@ package com.xphonesoftware.capstoneproject.MyDayScreen;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bignerdranch.android.multiselector.ModalMultiSelectorCallback;
+import com.bignerdranch.android.multiselector.MultiSelector;
+import com.bignerdranch.android.multiselector.SelectableHolder;
+import com.bignerdranch.android.multiselector.SwappingHolder;
 import com.xphonesoftware.capstoneproject.R;
+import com.xphonesoftware.capstoneproject.data.ExerciseContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +31,14 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
     public static final int NUM_COLUMNS = 3;
 
     private List<MyDayModel> exercises;
-    private ArrayList<Long> pickedExercises;
     private MyDayAdapterCallback myDayAdapterCallback;
     private Context context;
+    private MultiSelector multiSelector;
+    private AppCompatActivity activity;
+    private ModalMultiSelectorCallback mDeleteMode;
+    private static final String KEY_NAME = "_id";
+    private ArrayList<Integer> selectedPositions;
+    private boolean isSelected;
 
     public interface MyDayAdapterCallback {
         void setExercise(String exercise);
@@ -32,21 +46,55 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
         void setPickedList(ArrayList<Long> pickedList);
     }
 
-    public MyDayAdapter(List<MyDayModel> exercises, Context context) {
+    public MyDayAdapter(final List<MyDayModel> exercises, Context context,
+                        final AppCompatActivity appCompatActivity) {
         this.exercises = exercises;
+        this.context = context;
         myDayAdapterCallback = (MyDayAdapterCallback) context;
-        pickedExercises = new ArrayList<>();
+        multiSelector = new MultiSelector();
+        this.activity = appCompatActivity;
+
+        selectedPositions = new ArrayList<>();
+
+        multiSelector = new MultiSelector();
+
+        mDeleteMode = new ModalMultiSelectorCallback(multiSelector) {
+            @Override
+            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                super.onCreateActionMode(actionMode, menu);
+                activity.getMenuInflater().inflate(R.menu.menu, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                if (item.getItemId() == R.id.action_delete) {
+                    mode.finish();
+
+                    for (int i = exercises.size() * 3 + 3; i >= 0; i--) {
+                        if (multiSelector.isSelected(i, 0)) {
+                            appCompatActivity.getContentResolver()
+                                    .delete(ExerciseContract.ExerciseEntry.CONTENT_URI, KEY_NAME +
+                                            "=" + String.valueOf(exercises.get(i / 3 - 1).getId()), null);
+                        }
+                    }
+
+                    multiSelector.clearSelections();
+                }
+                return false;
+            }
+        };
     }
 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        context = parent.getContext();
+//        context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View exerciseView = inflater.inflate(R.layout.my_day_item, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(exerciseView);
+        ViewHolder viewHolder = new ViewHolder(exerciseView, multiSelector);
 
         return viewHolder;
     }
@@ -58,7 +106,7 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(final MyDayAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final MyDayAdapter.ViewHolder holder, final int position) {
         int row = position / NUM_COLUMNS;
         int col = position % NUM_COLUMNS;
 
@@ -98,15 +146,77 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    myDayAdapterCallback.setExercise(exercise.getExercise());
+                    if (!multiSelector.tapSelection(holder)) {
+                        myDayAdapterCallback.setExercise(exercise.getExercise());
+                    } else {
+                        int selectedPosition = position % NUM_COLUMNS;
+
+                        if (selectedPositions.size() > 0) {
+                            for (int i = 0; i < selectedPositions.size(); i++) {
+                                if (position == selectedPositions.get(i)) {
+                                    multiSelector.setSelected(position, 0, false);
+                                    selectedPositions.remove(i);
+                                    isSelected = true;
+                                    if (selectedPosition == 0) {
+                                        multiSelector.setSelected(position + 1, 0, false);
+                                        multiSelector.setSelected(position + 2, 0, false);
+                                        int index = selectedPositions.indexOf(position + 1);
+                                        int index1 = selectedPositions.indexOf(position + 2);
+                                        selectedPositions.remove(index);
+                                        selectedPositions.remove(index1 - 1);
+                                    } else if (selectedPosition == 1) {
+                                        multiSelector.setSelected(position - 1, 0, false);
+                                        multiSelector.setSelected(position + 1, 0, false);
+                                        int index = selectedPositions.indexOf(position - 1);
+                                        int index1 = selectedPositions.indexOf(position + 1);
+                                        selectedPositions.remove(index);
+                                        selectedPositions.remove(index1 - 1);
+                                    } else {
+                                        multiSelector.setSelected(position - 1, 0, false);
+                                        multiSelector.setSelected(position - 2, 0, false);
+                                        int index = selectedPositions.indexOf(position - 1);
+                                        int index1 = selectedPositions.indexOf(position - 2);
+                                        selectedPositions.remove(index);
+                                        int endIndex;
+                                        if (index1 - 1 < 0) {
+                                            endIndex = index1;
+                                        } else {
+                                            endIndex = index1 - 1;
+                                        }
+                                        selectedPositions.remove(endIndex);
+                                    }
+                                }
+                            }
+                        }
+                        if (isSelected == false) {
+                            multiSelector.setSelected(position, 0, true);
+                            selectedPositions.add(position);
+                            if (selectedPosition == 0) {
+                                multiSelector.setSelected(position + 1, 0, true);
+                                multiSelector.setSelected(position + 2, 0, true);
+                                selectedPositions.add(position + 1);
+                                selectedPositions.add(position + 2);
+                            } else if (selectedPosition == 1) {
+                                multiSelector.setSelected(position - 1, 0, true);
+                                multiSelector.setSelected(position + 1, 0, true);
+                                selectedPositions.add(position - 1);
+                                selectedPositions.add(position + 1);
+                            } else {
+                                multiSelector.setSelected(position - 1, 0, true);
+                                multiSelector.setSelected(position - 2, 0, true);
+                                selectedPositions.add(position - 1);
+                                selectedPositions.add(position - 2);
+                            }
+                        }
+                    }
+                    isSelected = false;
                 }
             });
 
             textView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    pickedExercises.add(exercise.getId());
-                    myDayAdapterCallback.setPickedList(pickedExercises);
+                    activity.startSupportActionMode(mDeleteMode);
                     return true;
                 }
             });
@@ -142,12 +252,12 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
         return exercises.size() * NUM_COLUMNS + 3;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends SwappingHolder implements SelectableHolder {
 
         TextView myDayView;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
+        public ViewHolder(View itemView, MultiSelector multiSelector) {
+            super(itemView, multiSelector);
             myDayView = (TextView) itemView.findViewById(R.id.my_day_item);
         }
     }

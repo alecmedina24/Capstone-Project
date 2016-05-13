@@ -12,8 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -31,7 +29,6 @@ import com.xphonesoftware.capstoneproject.ExerciseScreen.ExerciseFragment;
 import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayAdapter;
 import com.xphonesoftware.capstoneproject.MyDayScreen.MyDayFragment;
 import com.xphonesoftware.capstoneproject.WeightScreen.WeightFragment;
-import com.xphonesoftware.capstoneproject.data.ExerciseContract;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -140,28 +137,28 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_delete:
-                if (deleteList != null) {
-                    for (int i = 0; i < deleteList.size(); i++) {
-                        getContentResolver().delete(ExerciseContract.ExerciseEntry
-                                        .CONTENT_URI, KEY_NAME + "=" + String.valueOf(deleteList.get(i)), null);
-                    }
-                }
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_delete:
+//                if (deleteList != null) {
+//                    for (int i = 0; i < deleteList.size(); i++) {
+//                        getContentResolver().delete(ExerciseContract.ExerciseEntry
+//                                        .CONTENT_URI, KEY_NAME + "=" + String.valueOf(deleteList.get(i)), null);
+//                    }
+//                }
+//                return true;
+//
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     //Add weight to GoogleFit
     @Override
