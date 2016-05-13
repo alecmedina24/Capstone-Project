@@ -161,29 +161,23 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
                                         multiSelector.setSelected(position + 1, 0, false);
                                         multiSelector.setSelected(position + 2, 0, false);
                                         int index = selectedPositions.indexOf(position + 1);
-                                        int index1 = selectedPositions.indexOf(position + 2);
                                         selectedPositions.remove(index);
-                                        selectedPositions.remove(index1 - 1);
+                                        int index1 = selectedPositions.indexOf(position + 2);
+                                        selectedPositions.remove(index1);
                                     } else if (selectedPosition == 1) {
                                         multiSelector.setSelected(position - 1, 0, false);
                                         multiSelector.setSelected(position + 1, 0, false);
                                         int index = selectedPositions.indexOf(position - 1);
-                                        int index1 = selectedPositions.indexOf(position + 1);
                                         selectedPositions.remove(index);
-                                        selectedPositions.remove(index1 - 1);
+                                        int index1 = selectedPositions.indexOf(position + 1);
+                                        selectedPositions.remove(index1);
                                     } else {
                                         multiSelector.setSelected(position - 1, 0, false);
                                         multiSelector.setSelected(position - 2, 0, false);
                                         int index = selectedPositions.indexOf(position - 1);
-                                        int index1 = selectedPositions.indexOf(position - 2);
                                         selectedPositions.remove(index);
-                                        int endIndex;
-                                        if (index1 - 1 < 0) {
-                                            endIndex = index1;
-                                        } else {
-                                            endIndex = index1 - 1;
-                                        }
-                                        selectedPositions.remove(endIndex);
+                                        int index1 = selectedPositions.indexOf(position - 2);
+                                        selectedPositions.remove(index1);
                                     }
                                 }
                             }
