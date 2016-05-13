@@ -111,6 +111,14 @@ public class AddExerciseDialog extends DialogFragment {
                 }
 
         );
+//        builder.setNeutralButton("Retry", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                displaySpeechRecognizer();
+//            }
+//        });
+//
+//        displaySpeechRecognizer();
         return builder.create();
     }
 

@@ -20,6 +20,7 @@ import com.bignerdranch.android.multiselector.SwappingHolder;
 import com.xphonesoftware.capstoneproject.R;
 import com.xphonesoftware.capstoneproject.data.ExerciseContract;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
     public interface MyDayAdapterCallback {
         void setExercise(String exercise);
 
-        void setPickedList(ArrayList<Long> pickedList);
+        void redrawScreen();
     }
 
     public MyDayAdapter(final List<MyDayModel> exercises, Context context,
@@ -67,10 +68,29 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
             }
 
             @Override
+            public void onDestroyActionMode(ActionMode actionMode) {
+                // don't call super here - leads to crash!
+                // clear selections
+                multiSelector.clearSelections();
+                // here we need to change the mIsSelectable property without refreshing all the holders,
+                // so we cant use mMultiSelector.setSelectable(false)
+                try {
+                    Field field = multiSelector.getClass().getDeclaredField("mIsSelectable");
+                    if (field != null) {
+                        if (!field.isAccessible())
+                            field.setAccessible(true);
+                        field.set(multiSelector, false);
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 if (item.getItemId() == R.id.action_delete) {
-                    mode.finish();
-
                     for (int i = exercises.size() * 3 + 3; i >= 0; i--) {
                         if (multiSelector.isSelected(i, 0)) {
                             appCompatActivity.getContentResolver()
@@ -78,8 +98,8 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
                                             "=" + String.valueOf(exercises.get(i / 3 - 1).getId()), null);
                         }
                     }
-
-                    multiSelector.clearSelections();
+                    mode.finish();
+                    myDayAdapterCallback.redrawScreen();
                 }
                 return false;
             }
@@ -211,6 +231,27 @@ public class MyDayAdapter extends RecyclerView.Adapter<MyDayAdapter.ViewHolder> 
                 @Override
                 public boolean onLongClick(View v) {
                     activity.startSupportActionMode(mDeleteMode);
+
+                    int selectedPosition = position % NUM_COLUMNS;
+
+                    multiSelector.setSelected(position, 0, true);
+                    selectedPositions.add(position);
+                    if (selectedPosition == 0) {
+                        multiSelector.setSelected(position + 1, 0, true);
+                        multiSelector.setSelected(position + 2, 0, true);
+                        selectedPositions.add(position + 1);
+                        selectedPositions.add(position + 2);
+                    } else if (selectedPosition == 1) {
+                        multiSelector.setSelected(position - 1, 0, true);
+                        multiSelector.setSelected(position + 1, 0, true);
+                        selectedPositions.add(position - 1);
+                        selectedPositions.add(position + 1);
+                    } else {
+                        multiSelector.setSelected(position - 1, 0, true);
+                        multiSelector.setSelected(position - 2, 0, true);
+                        selectedPositions.add(position - 1);
+                        selectedPositions.add(position - 2);
+                    }
                     return true;
                 }
             });
