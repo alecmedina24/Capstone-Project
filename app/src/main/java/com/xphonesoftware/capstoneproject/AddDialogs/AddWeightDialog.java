@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.xphonesoftware.capstoneproject.R;
 import com.xphonesoftware.capstoneproject.data.WeightContract;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -115,7 +114,7 @@ public class AddWeightDialog extends DialogFragment {
 
     public String formatTime(long date) {
         Date time = new Date(date);
-        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm aa");
         String timeFormatted = formatter.format(time);
         return timeFormatted;
     }

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.xphonesoftware.capstoneproject.R;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -125,7 +124,7 @@ public class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.ViewHolder
 
     public String formatTime(long date) {
         Date time = new Date(date);
-        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm aa");
         String timeFormatted = formatter.format(time);
         return timeFormatted;
     }

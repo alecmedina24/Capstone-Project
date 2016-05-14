@@ -185,6 +185,11 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
     }
 
     @Override
+    public void displayVoiceRecognizer() {
+        myDayFragment.displaySpeechRecognizer();
+    }
+
+    @Override
     public void setExercise(String exercise) {
         exerciseFragment.setExercise(exercise);
         pager.setCurrentItem(1);

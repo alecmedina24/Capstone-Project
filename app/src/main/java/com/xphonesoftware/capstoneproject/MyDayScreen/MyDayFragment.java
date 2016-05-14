@@ -1,8 +1,11 @@
 package com.xphonesoftware.capstoneproject.MyDayScreen;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.stetho.Stetho;
@@ -19,6 +23,8 @@ import com.google.android.gms.ads.AdView;
 import com.xphonesoftware.capstoneproject.AddDialogs.AddExerciseDialog;
 import com.xphonesoftware.capstoneproject.R;
 import com.xphonesoftware.capstoneproject.data.DataLoader;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,8 +47,11 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
     TextView previousDayButton;
     @Bind(R.id.floating_action_button)
     FloatingActionButton fab;
+    @Bind(R.id.detail_screen_layout)
+    RelativeLayout rootLayout;
 
     private static final long ONE_DAY = 86400000;
+    private static final int SPEECH_REQUEST_CODE = 0;
 
     private MyDayModel myDayModel;
     private long day;
@@ -50,6 +59,7 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
     private long yesterday;
     private Context context;
     private MyDayAdapter myDayAdapter;
+    private AddExerciseDialog addExerciseDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,9 +103,8 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getFragmentManager();
-                AddExerciseDialog addExerciseDialog = new AddExerciseDialog();
-                addExerciseDialog.show(fm, context.getString(R.string.add_exercise_tag));
+                displaySpeechRecognizer();
+                Snackbar.make(rootLayout, "Please speak exercise, weight, and reps", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -103,6 +112,29 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
         yesterday = System.currentTimeMillis() - ONE_DAY;
 
         return rootView;
+    }
+
+    public void displaySpeechRecognizer() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        // Start the activity, the intent will be populated with the speech text
+        startActivityForResult(intent, SPEECH_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent data) {
+        if (requestCode == SPEECH_REQUEST_CODE && resultCode == -1) {
+            List<String> results = data.getStringArrayListExtra(
+                    RecognizerIntent.EXTRA_RESULTS);
+            String spokenWorkout = results.get(0);
+            FragmentManager fm = getFragmentManager();
+            addExerciseDialog = new AddExerciseDialog();
+            addExerciseDialog.show(fm, context.getString(R.string.add_exercise_tag));
+            addExerciseDialog.setSpokenWorkout(spokenWorkout);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void getData() {
