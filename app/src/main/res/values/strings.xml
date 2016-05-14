@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Capstone Project</string>
+    <string name="app_name">My Exercise Diary</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="hint_text">*Hold phone close to mouth for better results*</string>
     <string name="example_text">Example: Tricep press, 25 pounds, 20 reps</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xphonesoftware.capstoneproject">
+    package="com.alecmedina24.myexercisediary">
 
     <application
         android:allowBackup="true"
@@ -13,7 +13,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".MainActivity"
+        <activity android:name="com.alecmedina24.myexercisediary.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -24,11 +24,11 @@
         </activity>
 
         <provider
-            android:authorities="com.xphonesoftware.capstoneproject"
-            android:name=".data.DataProvider"
+            android:authorities="com.alecmedina24.myexercisediary"
+            android:name="com.alecmedina24.myexercisediary.data.DataProvider"
             android:exported="true" />
 
-        <receiver android:name="com.xphonesoftware.capstoneproject.Widget.ExerciseWidgetProvider">
+        <receiver android:name="com.alecmedina24.myexercisediary.Widget.ExerciseWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
@@ -37,7 +37,7 @@
                 android:resource="@xml/app_widget_provider_info"/>
         </receiver>
 
-        <service android:name="com.xphonesoftware.capstoneproject.Widget.ExerciseWidgetService"
+        <service android:name="com.alecmedina24.myexercisediary.Widget.ExerciseWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"
             android:exported="false"/>
 

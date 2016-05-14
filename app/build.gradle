@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.xphonesoftware.capstoneproject"
+        applicationId "com.alecmedina24.myexercisediary"
         minSdkVersion 23
         targetSdkVersion 23
         versionCode 1
@@ -14,7 +14,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("myreleasekey.jks")
+            storeFile file("app/myreleasekey.jks")
             storePassword "pencil"
             keyAlias "MyReleaseKey"
             keyPassword "pencil"
