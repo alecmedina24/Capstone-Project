@@ -24,10 +24,7 @@ public class AddExerciseDialog extends DialogFragment {
     EditText weightContentText;
     @Bind(R.id.rep_count)
     EditText repContentText;
-//    @Bind(R.id.voice_record)
-//    ImageButton recordVoiceButton;
 
-//    private static final int SPEECH_REQUEST_CODE = 0;
     private static final String ERROR_CODE = "-1";
     private String spokenWorkout;
     private String weightSubString;
@@ -56,13 +53,6 @@ public class AddExerciseDialog extends DialogFragment {
         context = getContext();
 
         updateExerciseScreenListener = (UpdateExerciseScreenListener) getActivity();
-
-//        recordVoiceButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                displaySpeechRecognizer();
-//            }
-//        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);
@@ -202,6 +192,8 @@ public class AddExerciseDialog extends DialogFragment {
         String exercise = parseExercise(spokenWorkout);
         String weight = parseWeight();
         String reps = parseCount();
+
+
         if (exercise == ERROR_CODE || weight == ERROR_CODE || reps == ERROR_CODE) {
             Toast.makeText(context.getApplicationContext(), R.string.repeat_exercise, Toast.LENGTH_SHORT).show();
         } else {
@@ -210,37 +202,4 @@ public class AddExerciseDialog extends DialogFragment {
             repContentText.setText(reps);
         }
     }
-
-    // Create an intent that can start the Speech Recognizer activity
-//    private void displaySpeechRecognizer() {
-//        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-//        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-//                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-//        // Start the activity, the intent will be populated with the speech text
-//        startActivityForResult(intent, SPEECH_REQUEST_CODE);
-//    }
-
-    // This callback is invoked when the Speech Recognizer returns.
-    // This is where you process the intent and extract the speech text from the intent.
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode,
-//                                 Intent data) {
-//        if (requestCode == SPEECH_REQUEST_CODE && resultCode == -1) {
-//            List<String> results = data.getStringArrayListExtra(
-//                    RecognizerIntent.EXTRA_RESULTS);
-//            spokenWorkout = results.get(0);
-////            Log.v("Full Exercise", spokenWorkout);
-//            String exercise = parseExercise(spokenWorkout);
-//            String weight = parseWeight();
-//            String reps = parseCount();
-//            if (exercise == ERROR_CODE || weight == ERROR_CODE || reps == ERROR_CODE) {
-//                Toast.makeText(context.getApplicationContext(), R.string.repeat_exercise, Toast.LENGTH_SHORT).show();
-//            } else {
-//                exerciseContentText.setText(exercise);
-//                weightContentText.setText(weight);
-//                repContentText.setText(reps);
-//            }
-//        }
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
 }
