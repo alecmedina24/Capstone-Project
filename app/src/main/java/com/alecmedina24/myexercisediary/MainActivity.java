@@ -12,6 +12,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.alecmedina24.myexercisediary.AddDialogs.AddExerciseDialog;
+import com.alecmedina24.myexercisediary.AddDialogs.AddWeightDialog;
+import com.alecmedina24.myexercisediary.ExerciseScreen.ExerciseFragment;
+import com.alecmedina24.myexercisediary.MyDayScreen.MyDayAdapter;
+import com.alecmedina24.myexercisediary.MyDayScreen.MyDayFragment;
+import com.alecmedina24.myexercisediary.WeightScreen.WeightFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -22,12 +28,6 @@ import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataSource;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
-import com.alecmedina24.myexercisediary.AddDialogs.AddExerciseDialog;
-import com.alecmedina24.myexercisediary.AddDialogs.AddWeightDialog;
-import com.alecmedina24.myexercisediary.ExerciseScreen.ExerciseFragment;
-import com.alecmedina24.myexercisediary.MyDayScreen.MyDayAdapter;
-import com.alecmedina24.myexercisediary.MyDayScreen.MyDayFragment;
-import com.alecmedina24.myexercisediary.WeightScreen.WeightFragment;
 
 import java.util.Calendar;
 import java.util.Date;
