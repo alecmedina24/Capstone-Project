@@ -17,12 +17,11 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.facebook.stetho.Stetho;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.alecmedina24.myexercisediary.AddDialogs.AddExerciseDialog;
 import com.alecmedina24.myexercisediary.R;
 import com.alecmedina24.myexercisediary.data.DataLoader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.List;
 
@@ -71,11 +70,11 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
 
         context = getContext();
 
-        Stetho.initializeWithDefaults(context);
+//        Stetho.initializeWithDefaults(context);
 
         ButterKnife.bind(this, rootView);
 
-        final AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
         day = System.currentTimeMillis();
