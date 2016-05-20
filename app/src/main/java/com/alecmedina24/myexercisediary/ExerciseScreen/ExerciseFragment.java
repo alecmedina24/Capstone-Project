@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.alecmedina24.myexercisediary.R;
-import com.alecmedina24.myexercisediary.data.DataLoader;
+import com.alecmedina24.myexercisediary.Data.DataLoader;
 
 import java.util.ArrayList;
 

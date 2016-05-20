@@ -8,7 +8,7 @@ import android.widget.RemoteViewsService;
 
 import com.alecmedina24.myexercisediary.MyDayScreen.MyDayModel;
 import com.alecmedina24.myexercisediary.R;
-import com.alecmedina24.myexercisediary.data.ExerciseContract;
+import com.alecmedina24.myexercisediary.Data.ExerciseContract;
 
 import java.util.ArrayList;
 

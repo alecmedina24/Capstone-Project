@@ -25,7 +25,7 @@
 
         <provider
             android:authorities="com.alecmedina24.myexercisediary"
-            android:name="com.alecmedina24.myexercisediary.data.DataProvider"
+            android:name="com.alecmedina24.myexercisediary.Data.DataProvider"
             android:exported="true" />
 
         <receiver android:name="com.alecmedina24.myexercisediary.Widget.ExerciseWidgetProvider">

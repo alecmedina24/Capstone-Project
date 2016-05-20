@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:id="@+id/detail_screen_layout">
 
-    <include layout="@layout/day_header_layout"
+    <include layout="@layout/my_day_header_layout"
         android:id="@+id/day_header"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"

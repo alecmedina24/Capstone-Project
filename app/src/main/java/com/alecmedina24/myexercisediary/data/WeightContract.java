@@ -1,4 +1,4 @@
-package com.alecmedina24.myexercisediary.data;
+package com.alecmedina24.myexercisediary.Data;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;

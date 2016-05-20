@@ -80,7 +80,7 @@ public class MyDayModel {
     }
 
     public String formatDate(long date) {
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy");
+        SimpleDateFormat format = new SimpleDateFormat("MMM dd");
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(date);
         String day = format.format(calendar.getTime());

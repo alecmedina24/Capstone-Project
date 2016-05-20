@@ -18,7 +18,7 @@ import com.bignerdranch.android.multiselector.MultiSelector;
 import com.bignerdranch.android.multiselector.SelectableHolder;
 import com.bignerdranch.android.multiselector.SwappingHolder;
 import com.alecmedina24.myexercisediary.R;
-import com.alecmedina24.myexercisediary.data.ExerciseContract;
+import com.alecmedina24.myexercisediary.Data.ExerciseContract;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

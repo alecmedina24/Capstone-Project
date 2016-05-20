@@ -17,9 +17,9 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alecmedina24.myexercisediary.AddDialogs.AddExerciseDialog;
+import com.alecmedina24.myexercisediary.Dialogs.AddExerciseDialog;
 import com.alecmedina24.myexercisediary.R;
-import com.alecmedina24.myexercisediary.data.DataLoader;
+import com.alecmedina24.myexercisediary.Data.DataLoader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -48,6 +48,8 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
     FloatingActionButton fab;
     @Bind(R.id.detail_screen_layout)
     RelativeLayout rootLayout;
+    @Bind(R.id.day_listed)
+    TextView dayListed;
 
     private static final long ONE_DAY = 86400000;
     private static final int SPEECH_REQUEST_CODE = 0;
@@ -104,6 +106,13 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
             public void onClick(View v) {
                 displaySpeechRecognizer();
                 Snackbar.make(rootLayout, "Please speak exercise, weight, and reps", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        dayListed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 

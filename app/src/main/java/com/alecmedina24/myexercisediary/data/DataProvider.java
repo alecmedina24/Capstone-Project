@@ -1,4 +1,4 @@
-package com.alecmedina24.myexercisediary.data;
+package com.alecmedina24.myexercisediary.Data;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;

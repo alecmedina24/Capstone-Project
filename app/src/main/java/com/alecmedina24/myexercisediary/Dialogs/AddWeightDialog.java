@@ -1,4 +1,4 @@
-package com.alecmedina24.myexercisediary.AddDialogs;
+package com.alecmedina24.myexercisediary.Dialogs;
 
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.alecmedina24.myexercisediary.R;
-import com.alecmedina24.myexercisediary.data.WeightContract;
+import com.alecmedina24.myexercisediary.Data.WeightContract;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

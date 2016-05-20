@@ -11,9 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alecmedina24.myexercisediary.AddDialogs.AddWeightDialog;
+import com.alecmedina24.myexercisediary.Dialogs.AddWeightDialog;
 import com.alecmedina24.myexercisediary.R;
-import com.alecmedina24.myexercisediary.data.DataLoader;
+import com.alecmedina24.myexercisediary.Data.DataLoader;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

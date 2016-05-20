@@ -12,8 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.alecmedina24.myexercisediary.AddDialogs.AddExerciseDialog;
-import com.alecmedina24.myexercisediary.AddDialogs.AddWeightDialog;
+import com.alecmedina24.myexercisediary.Dialogs.AddExerciseDialog;
+import com.alecmedina24.myexercisediary.Dialogs.AddWeightDialog;
 import com.alecmedina24.myexercisediary.ExerciseScreen.ExerciseFragment;
 import com.alecmedina24.myexercisediary.MyDayScreen.MyDayAdapter;
 import com.alecmedina24.myexercisediary.MyDayScreen.MyDayFragment;

@@ -1,4 +1,4 @@
-package com.alecmedina24.myexercisediary.AddDialogs;
+package com.alecmedina24.myexercisediary.Dialogs;
 
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.alecmedina24.myexercisediary.R;
-import com.alecmedina24.myexercisediary.data.ExerciseContract;
+import com.alecmedina24.myexercisediary.Data.ExerciseContract;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -112,6 +112,11 @@ public class AddExerciseDialog extends DialogFragment {
     //for further parsing
     public String parseExercise(String speech) {
         int index = 0;
+        if (speech.contains("hundred")) {
+            Toast.makeText(context.getApplicationContext(),
+                    "Please enunciate one hundred", Toast.LENGTH_SHORT).show();
+            return ERROR_CODE;
+        }
         for (char i : speech.toCharArray()) {
             index++;
             if (Character.isDigit(i)) {
@@ -189,13 +194,13 @@ public class AddExerciseDialog extends DialogFragment {
     }
 
     public void setDialogFields() {
-        String exercise = parseExercise(spokenWorkout);
+        String exercise = parseExercise(spokenWorkout.toLowerCase()).toLowerCase();
         String weight = parseWeight();
         String reps = parseCount();
 
-
         if (exercise == ERROR_CODE || weight == ERROR_CODE || reps == ERROR_CODE) {
-            Toast.makeText(context.getApplicationContext(), R.string.repeat_exercise, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context.getApplicationContext(),
+                    R.string.repeat_exercise, Toast.LENGTH_SHORT).show();
         } else {
             exerciseContentText.setText(exercise);
             weightContentText.setText(weight);
