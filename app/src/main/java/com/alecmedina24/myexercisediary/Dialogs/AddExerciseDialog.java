@@ -26,6 +26,12 @@ public class AddExerciseDialog extends DialogFragment {
     EditText repContentText;
 
     private static final String ERROR_CODE = "-1";
+    private static final String[] TENS =
+            {"ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+    private static final String[] ONES =
+            {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+    private static final String[] TEENS =
+            {"eleven","twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
     private String spokenWorkout;
     private String weightSubString;
     private String repSubstring;
@@ -113,18 +119,19 @@ public class AddExerciseDialog extends DialogFragment {
     public String parseExercise(String speech) {
         int index = 0;
         if (speech.contains("hundred")) {
-            Toast.makeText(context.getApplicationContext(),
-                    "Please enunciate one hundred", Toast.LENGTH_SHORT).show();
-            return ERROR_CODE;
-        }
-        for (char i : speech.toCharArray()) {
-            index++;
-            if (Character.isDigit(i)) {
-                String exercise = speech.substring(0, index - 1);
-                weightSubString = speech.substring(index - 1);
+            String exercise = speech.substring(0, speech.indexOf("hundred") - 1);
+            weightSubString = speech.substring(speech.indexOf("hundred"));
+            return exercise;
+        } else {
+            for (char i : speech.toCharArray()) {
+                index++;
+                if (Character.isDigit(i)) {
+                    String exercise = speech.substring(0, index - 1);
+                    weightSubString = speech.substring(index - 1);
 //                Log.v("Exercise Type", exercise);
 //                Log.v("Remaining String", weightSubString);
-                return exercise;
+                    return exercise;
+                }
             }
         }
         return ERROR_CODE;
@@ -139,15 +146,43 @@ public class AddExerciseDialog extends DialogFragment {
                 hasWeight = false;
                 return "0";
             }
-            for (char i : weightSubString.toCharArray()) {
-                index++;
-                if (Character.isLetter(i)) {
-                    String weight = weightSubString.substring(0, index - 1);
-                    repSubstring = weightSubString.substring(index - 1);
+            if (weightSubString.contains("hundred")) {
+                String weightInWordsConverted = "1";
+                String weightInWords = weightSubString.substring(0, weightSubString.indexOf("pounds") - 1);
+                repSubstring = weightSubString.substring(weightSubString.indexOf("pounds"));
+                hasWeight = true;
+                if (weightInWords.contains("and")) {
+                    weightInWords = weightInWords.replace("and", "");
+                }
+                if (weightInWords.contains("-")) {
+                    weightInWords = weightInWords.replace("-", " ");
+                }
+                String[] weightInWordsFormatted = weightInWords.split("\\s");
+                for (int i = 1; i < weightInWordsFormatted.length; i++) {
+                    for (int j = 0; j < 9; j++) {
+                        if (weightInWordsFormatted[i].equals(TENS[j])) {
+                            weightInWordsConverted += String.valueOf((j + 1) * 10);
+                        }
+                        if (weightInWordsFormatted[i].equals(ONES[j])) {
+                            weightInWordsConverted = weightInWordsConverted.replace("0", String.valueOf(j + 1));
+                        }
+                        if (weightInWordsFormatted[i].equals(TEENS[j])) {
+                            weightInWordsConverted += "1" + String.valueOf(j + 1);
+                        }
+                    }
+                }
+                return weightInWordsConverted;
+            } else {
+                for (char i : weightSubString.toCharArray()) {
+                    index++;
+                    if (Character.isLetter(i)) {
+                        String weight = weightSubString.substring(0, index - 1);
+                        repSubstring = weightSubString.substring(index - 1);
 //                    Log.v("Weight", weight);
 //                    Log.v("Remaining String", repSubstring);
-                    hasWeight = true;
-                    return weight;
+                        hasWeight = true;
+                        return weight;
+                    }
                 }
             }
         }

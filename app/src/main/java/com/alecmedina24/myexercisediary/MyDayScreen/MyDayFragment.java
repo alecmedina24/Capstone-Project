@@ -48,8 +48,8 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
     FloatingActionButton fab;
     @Bind(R.id.detail_screen_layout)
     RelativeLayout rootLayout;
-    @Bind(R.id.day_listed)
-    TextView dayListed;
+//    @Bind(R.id.day_listed)
+//    TextView dayListed;
 
     private static final long ONE_DAY = 86400000;
     private static final int SPEECH_REQUEST_CODE = 0;
@@ -109,12 +109,12 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
             }
         });
 
-        dayListed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        dayListed.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
         today = System.currentTimeMillis();
         yesterday = System.currentTimeMillis() - ONE_DAY;
