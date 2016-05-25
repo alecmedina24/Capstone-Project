@@ -26,12 +26,13 @@ public class AddExerciseDialog extends DialogFragment {
     EditText repContentText;
 
     private static final String ERROR_CODE = "-1";
+    private static final String SUCCESS_CODE = "1";
     private static final String[] TENS =
             {"ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
     private static final String[] ONES =
             {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
     private static final String[] TEENS =
-            {"eleven","twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
+            {"eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
     private String spokenWorkout;
     private String weightSubString;
     private String repSubstring;
@@ -40,10 +41,14 @@ public class AddExerciseDialog extends DialogFragment {
     private ContentValues exerciseData;
     private Context context;
     private UpdateExerciseScreenListener updateExerciseScreenListener;
+    private String repeatExercise;
+    private String repeatWeight;
+    private String repeatReps;
 
     //Callback to MainActivity to update the screen
     public interface UpdateExerciseScreenListener {
         void updateScreen();
+
         void displayVoiceRecognizer();
     }
 
@@ -118,6 +123,12 @@ public class AddExerciseDialog extends DialogFragment {
     //for further parsing
     public String parseExercise(String speech) {
         int index = 0;
+        if (speech.contains("repeat")) {
+            exerciseContentText.setText(repeatExercise);
+            weightContentText.setText(repeatWeight);
+            repContentText.setText(repeatReps);
+            return SUCCESS_CODE;
+        }
         if (speech.contains("hundred")) {
             String exercise = speech.substring(0, speech.indexOf("hundred") - 1);
             weightSubString = speech.substring(speech.indexOf("hundred"));
@@ -228,12 +239,20 @@ public class AddExerciseDialog extends DialogFragment {
         this.spokenWorkout = spokenWorkout;
     }
 
+    public void setRepeatExercise(String exercise, String weight, String reps) {
+        repeatExercise = exercise;
+        repeatWeight = weight;
+        repeatReps = reps;
+    }
+
     public void setDialogFields() {
         String exercise = parseExercise(spokenWorkout.toLowerCase()).toLowerCase();
         String weight = parseWeight();
         String reps = parseCount();
 
-        if (exercise == ERROR_CODE || weight == ERROR_CODE || reps == ERROR_CODE) {
+        if (exercise == SUCCESS_CODE) {
+            Toast.makeText(context.getApplicationContext(), "Exercise Repeated", Toast.LENGTH_SHORT).show();
+        } else if (exercise == ERROR_CODE || weight == ERROR_CODE || reps == ERROR_CODE) {
             Toast.makeText(context.getApplicationContext(),
                     R.string.repeat_exercise, Toast.LENGTH_SHORT).show();
         } else {

@@ -141,6 +141,11 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
             addExerciseDialog = new AddExerciseDialog();
             addExerciseDialog.show(fm, context.getString(R.string.add_exercise_tag));
             addExerciseDialog.setSpokenWorkout(spokenWorkout);
+            if (myDayModel.createExercisesList().size() > 0) {
+                MyDayModel repeatExercise = myDayModel.createExercisesList().get(0);
+                addExerciseDialog.setRepeatExercise(repeatExercise.getExercise(), repeatExercise.getWeight(),
+                        repeatExercise.getReps());
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
