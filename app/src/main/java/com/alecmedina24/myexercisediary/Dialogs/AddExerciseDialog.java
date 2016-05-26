@@ -26,7 +26,7 @@ public class AddExerciseDialog extends DialogFragment {
     EditText repContentText;
 
     private static final String ERROR_CODE = "-1";
-    private static final String SUCCESS_CODE = "1";
+    private static final String REPEAT_CODE = "1";
     private static final String[] TENS =
             {"ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
     private static final String[] ONES =
@@ -35,7 +35,7 @@ public class AddExerciseDialog extends DialogFragment {
             {"eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
     private String spokenWorkout;
     private String weightSubString;
-    private String repSubstring;
+    private String repSubString;
     private long date;
     private boolean hasWeight;
     private ContentValues exerciseData;
@@ -44,6 +44,7 @@ public class AddExerciseDialog extends DialogFragment {
     private String repeatExercise;
     private String repeatWeight;
     private String repeatReps;
+    private boolean isModified;
 
     //Callback to MainActivity to update the screen
     public interface UpdateExerciseScreenListener {
@@ -123,11 +124,19 @@ public class AddExerciseDialog extends DialogFragment {
     //for further parsing
     public String parseExercise(String speech) {
         int index = 0;
+        boolean stopSubstring = false;
         if (speech.contains("repeat")) {
-            exerciseContentText.setText(repeatExercise);
-            weightContentText.setText(repeatWeight);
-            repContentText.setText(repeatReps);
-            return SUCCESS_CODE;
+            for (char i : speech.toCharArray()) {
+                index++;
+                if (Character.isDigit(i) && !stopSubstring) {
+                    stopSubstring = true;
+                    weightSubString = speech.substring(index - 1);
+                }
+            }
+            if (weightSubString != null) {
+                isModified = true;
+            }
+            return REPEAT_CODE;
         }
         if (speech.contains("hundred")) {
             String exercise = speech.substring(0, speech.indexOf("hundred") - 1);
@@ -152,6 +161,16 @@ public class AddExerciseDialog extends DialogFragment {
     //and substrings the rest
     public String parseWeight() {
         int index = 0;
+        if (isModified) {
+            if (weightSubString.contains("pounds")) {
+                String modifiedWeight = weightSubString.substring(0, weightSubString.indexOf("pounds") - 1);
+                repSubString = weightSubString.substring(weightSubString.indexOf("pounds"));
+                return modifiedWeight;
+            } else {
+                repSubString = weightSubString;
+                return REPEAT_CODE;
+            }
+        }
         if (weightSubString != null) {
             if (!weightSubString.contains(context.getString(R.string.pounds_check))) {
                 hasWeight = false;
@@ -160,7 +179,7 @@ public class AddExerciseDialog extends DialogFragment {
             if (weightSubString.contains("hundred")) {
                 String weightInWordsConverted = "1";
                 String weightInWords = weightSubString.substring(0, weightSubString.indexOf("pounds") - 1);
-                repSubstring = weightSubString.substring(weightSubString.indexOf("pounds"));
+                repSubString = weightSubString.substring(weightSubString.indexOf("pounds"));
                 hasWeight = true;
                 if (weightInWords.contains("and")) {
                     weightInWords = weightInWords.replace("and", "");
@@ -188,9 +207,9 @@ public class AddExerciseDialog extends DialogFragment {
                     index++;
                     if (Character.isLetter(i)) {
                         String weight = weightSubString.substring(0, index - 1);
-                        repSubstring = weightSubString.substring(index - 1);
+                        repSubString = weightSubString.substring(index - 1);
 //                    Log.v("Weight", weight);
-//                    Log.v("Remaining String", repSubstring);
+//                    Log.v("Remaining String", repSubString);
                         hasWeight = true;
                         return weight;
                     }
@@ -204,12 +223,34 @@ public class AddExerciseDialog extends DialogFragment {
     public String parseCount() {
         int index = 0;
         int index2 = 0;
-        if (repSubstring != null && weightSubString != null) {
+        String modifiedReps;
+        if (isModified) {
+            if (repSubString.contains("reps")) {
+                modifiedReps = repSubString.substring(0, repSubString.indexOf("reps") - 1);
+                if (modifiedReps.contains("pounds")) {
+                    int repeatIndex = 0;
+                    for (char i : modifiedReps.toCharArray()) {
+                        repeatIndex++;
+                        if (Character.isDigit(i)) {
+                            modifiedReps = modifiedReps.substring(repeatIndex - 1);
+                            return modifiedReps;
+                        }
+                    }
+                }
+//                else {
+//                    modifiedReps = repSubString.substring(0, repSubString.indexOf("reps") - 1);
+//                }
+                return modifiedReps;
+            } else {
+                return REPEAT_CODE;
+            }
+        }
+        if (repSubString != null && weightSubString != null) {
             if (hasWeight) {
-                for (char i : repSubstring.toCharArray()) {
+                for (char i : repSubString.toCharArray()) {
                     index++;
                     if (Character.isDigit(i)) {
-                        String subString1 = repSubstring.substring(index - 1);
+                        String subString1 = repSubString.substring(index - 1);
 //                        Log.v("First Substring", subString1);
                         for (char j : subString1.toCharArray()) {
                             index2++;
@@ -222,7 +263,7 @@ public class AddExerciseDialog extends DialogFragment {
                     }
                 }
             }
-        } else if (repSubstring == null && weightSubString != null) {
+        } else if (repSubString == null && weightSubString != null) {
             int index3 = 0;
             for (char i : weightSubString.toCharArray()) {
                 index3++;
@@ -250,7 +291,27 @@ public class AddExerciseDialog extends DialogFragment {
         String weight = parseWeight();
         String reps = parseCount();
 
-        if (exercise == SUCCESS_CODE) {
+        if (exercise == REPEAT_CODE && isModified) {
+            exerciseContentText.setText(repeatExercise);
+
+            if (weight == REPEAT_CODE) {
+                weightContentText.setText(repeatWeight);
+            } else {
+                weightContentText.setText(weight);
+            }
+
+            if (reps == REPEAT_CODE) {
+                repContentText.setText(repeatReps);
+            } else {
+                repContentText.setText(reps);
+            }
+
+            Toast.makeText(context.getApplicationContext(), "Exercise Repeated with Modifications",
+                    Toast.LENGTH_SHORT).show();
+        } else if (exercise == REPEAT_CODE) {
+            exerciseContentText.setText(repeatExercise);
+            weightContentText.setText(repeatWeight);
+            repContentText.setText(repeatReps);
             Toast.makeText(context.getApplicationContext(), "Exercise Repeated", Toast.LENGTH_SHORT).show();
         } else if (exercise == ERROR_CODE || weight == ERROR_CODE || reps == ERROR_CODE) {
             Toast.makeText(context.getApplicationContext(),
