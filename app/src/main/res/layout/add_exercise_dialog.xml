@@ -4,53 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/sentence_structure_hint"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:paddingTop="10dp"
-        android:text="@string/structure_text"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+    <!--<TextView-->
+        <!--android:id="@+id/sentence_structure_hint"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:paddingTop="10dp"-->
+        <!--android:text="@string/structure_text"-->
+        <!--android:textAlignment="center"-->
+        <!--android:textSize="16sp"-->
+        <!--android:textStyle="bold" />-->
 
-    <TextView
-        android:id="@+id/example"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/sentence_structure_hint"
-        android:text="@string/example_text"
-        android:textAlignment="center"
-        android:textSize="14sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/example"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/sentence_structure_hint"-->
+        <!--android:text="@string/example_text"-->
+        <!--android:textAlignment="center"-->
+        <!--android:textSize="14sp" />-->
 
-    <TextView
-        android:id="@+id/voice_hint_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/example"
-        android:paddingBottom="20dp"
-        android:text="@string/hint_text"
-        android:textAlignment="center"
-        android:textSize="14sp" />
-
-    <!--<ImageButton-->
-        <!--android:id="@+id/voice_record"-->
-        <!--android:layout_width="100dp"-->
-        <!--android:layout_height="100dp"-->
-        <!--android:layout_below="@id/voice_hint_text"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:clickable="true"-->
-        <!--android:elevation="10dp"-->
-        <!--android:scaleType="fitXY"-->
-        <!--android:src="@drawable/circular_microphone_button"-->
-        <!--android:contentDescription="@string/voice_button_description"/>-->
+    <!--<TextView-->
+        <!--android:id="@+id/voice_hint_text"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/example"-->
+        <!--android:paddingBottom="20dp"-->
+        <!--android:text="@string/hint_text"-->
+        <!--android:textAlignment="center"-->
+        <!--android:textSize="14sp" />-->
 
     <RelativeLayout
         android:id="@+id/primary_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/voice_hint_text"
         android:paddingTop="10dp">
 
         <LinearLayout
@@ -93,7 +80,8 @@
                 android:paddingStart="16dp"
                 android:text="@string/weight_label"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:id="@+id/textView" />
 
             <EditText
                 android:id="@+id/weight_content"

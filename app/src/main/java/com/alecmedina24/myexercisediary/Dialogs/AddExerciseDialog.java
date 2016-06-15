@@ -27,6 +27,8 @@ public class AddExerciseDialog extends DialogFragment {
 
     private static final String ERROR_CODE = "-1";
     private static final String REPEAT_CODE = "1";
+    //ONES, TENS, and TEENS are for voice recognizer edge cases in which numbers are read in as words
+    //and not their number representation
     private static final String[] TENS =
             {"ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
     private static final String[] ONES =

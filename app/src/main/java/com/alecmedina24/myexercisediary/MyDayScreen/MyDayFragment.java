@@ -11,15 +11,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alecmedina24.myexercisediary.Data.DataLoader;
 import com.alecmedina24.myexercisediary.Dialogs.AddExerciseDialog;
 import com.alecmedina24.myexercisediary.R;
-import com.alecmedina24.myexercisediary.Data.DataLoader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -48,6 +49,8 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
     FloatingActionButton fab;
     @Bind(R.id.detail_screen_layout)
     RelativeLayout rootLayout;
+    @Bind(R.id.empty_state)
+    TextView emptyState;
 //    @Bind(R.id.day_listed)
 //    TextView dayListed;
 
@@ -91,6 +94,17 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
             }
         });
 
+        dayListedView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dayListedView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                day = System.currentTimeMillis();
+                myDayModel.setDate(day);
+                setDayHeader();
+                setNewAdapter();
+            }
+        });
+
         nextDayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,13 +123,6 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
             }
         });
 
-//        dayListed.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-
         today = System.currentTimeMillis();
         yesterday = System.currentTimeMillis() - ONE_DAY;
 
@@ -126,6 +133,8 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, this.getString(R.string.structure_text) + "\n" +
+                this.getString(R.string.example_text) + "\n" + this.getString(R.string.hint_text));
         // Start the activity, the intent will be populated with the speech text
         startActivityForResult(intent, SPEECH_REQUEST_CODE);
     }
@@ -157,11 +166,19 @@ public class MyDayFragment extends Fragment implements DataLoader.MyDayModelCall
     }
 
     public void setNewAdapter() {
-        exerciseList.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), MyDayAdapter.NUM_COLUMNS));
-        exerciseList.setItemAnimator(new SlideInUpAnimator());
-        myDayAdapter = new MyDayAdapter(myDayModel.createExercisesList(),
-                context, (AppCompatActivity) getActivity());
-        exerciseList.setAdapter(myDayAdapter);
+        List<MyDayModel> exercises = myDayModel.createExercisesList();
+        if (exercises.size() == 0) {
+            exerciseList.setVisibility(View.INVISIBLE);
+            emptyState.setVisibility(View.VISIBLE);
+        } else {
+            exerciseList.setVisibility(View.VISIBLE);
+            emptyState.setVisibility(View.INVISIBLE);
+            exerciseList.setLayoutManager(new GridLayoutManager(context.getApplicationContext(), MyDayAdapter.NUM_COLUMNS));
+            exerciseList.setItemAnimator(new SlideInUpAnimator());
+            myDayAdapter = new MyDayAdapter(exercises,
+                    context, (AppCompatActivity) getActivity());
+            exerciseList.setAdapter(myDayAdapter);
+        }
     }
 
     public void setDayHeader() {
