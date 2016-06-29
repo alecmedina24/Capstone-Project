@@ -1,4 +1,4 @@
-package com.alecmedina24.myexercisediary.Dialogs;
+package com.alecmedina24.myexercisediary.Dialogs.WidgetDialogs;
 
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -6,19 +6,21 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.alecmedina24.myexercisediary.Data.ExerciseContract;
+import com.alecmedina24.myexercisediary.Dialogs.AddExerciseDialog;
 import com.alecmedina24.myexercisediary.R;
+import com.alecmedina24.myexercisediary.Data.ExerciseContract;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AddExerciseDialog extends DialogFragment {
+public class WidgetAddExerciseDialog extends DialogFragment {
     @Bind(R.id.exercise_type_content)
     EditText exerciseContentText;
     @Bind(R.id.weight_content)
@@ -26,10 +28,6 @@ public class AddExerciseDialog extends DialogFragment {
     @Bind(R.id.rep_count)
     EditText repContentText;
 
-//    public static final String REPEAT_PREF_FILE_KEY = "repeat_exercise";
-    public static final String REPEAT_EXERCISE_PREF = "exercise";
-    public static final String REPEAT_WEIGHT_PREF = "weight";
-    public static final String REPEAT_REPS_PREF = "reps";
     private static final String ERROR_CODE = "-1";
     private static final String REPEAT_CODE = "1";
     //ONES, TENS, and TEENS are for voice recognizer edge cases in which numbers are read in as words
@@ -47,20 +45,15 @@ public class AddExerciseDialog extends DialogFragment {
     private boolean hasWeight;
     private ContentValues exerciseData;
     private Context context;
-    private UpdateExerciseScreenListener updateExerciseScreenListener;
     private String repeatExercise;
     private String repeatWeight;
     private String repeatReps;
     private boolean isModified;
     private SharedPreferences sharedPreferences;
+    private WidgetExerciseCallback widgetExerciseCallback;
 
-    //Callback to MainActivity to update the screen
-    public interface UpdateExerciseScreenListener {
-        void updateScreen();
-
-        void displayVoiceRecognizer();
-
-        SharedPreferences getSharedPreferences();
+    public interface WidgetExerciseCallback {
+        void retryVoiceRecognizer();
     }
 
     @Override
@@ -74,9 +67,9 @@ public class AddExerciseDialog extends DialogFragment {
 
         context = getContext();
 
-        updateExerciseScreenListener = (UpdateExerciseScreenListener) getActivity();
+        widgetExerciseCallback = (WidgetExerciseCallback) getActivity();
 
-        sharedPreferences = updateExerciseScreenListener.getSharedPreferences();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final SharedPreferences.Editor prefEditor = sharedPreferences.edit();
 
         setRepeatExercise();
@@ -108,12 +101,12 @@ public class AddExerciseDialog extends DialogFragment {
                     weightContentText.setText("");
                     repContentText.setText("");
 
-                    updateExerciseScreenListener.updateScreen();
-
                     dialog.dismiss();
 
                     Toast.makeText(context.getApplicationContext(),
                             R.string.notify_exercise_added, Toast.LENGTH_SHORT).show();
+
+                    System.exit(0);
                 } else {
                     Toast.makeText(context.getApplicationContext(),
                             R.string.notify_exercise_not_added, Toast.LENGTH_SHORT).show();
@@ -124,6 +117,7 @@ public class AddExerciseDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        System.exit(0);
                     }
                 }
 
@@ -131,8 +125,8 @@ public class AddExerciseDialog extends DialogFragment {
         builder.setNeutralButton("Retry", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                updateExerciseScreenListener.displayVoiceRecognizer();
                 dialog.dismiss();
+                widgetExerciseCallback.retryVoiceRecognizer();
             }
         });
         setDialogFields();
@@ -300,14 +294,14 @@ public class AddExerciseDialog extends DialogFragment {
     }
 
     public void setRepeatExercise() {
-        if (sharedPreferences.contains(REPEAT_EXERCISE_PREF)) {
-            repeatExercise = sharedPreferences.getString(REPEAT_EXERCISE_PREF, "");
+        if (sharedPreferences.contains(AddExerciseDialog.REPEAT_EXERCISE_PREF)) {
+            repeatExercise = sharedPreferences.getString(AddExerciseDialog.REPEAT_EXERCISE_PREF, "");
         }
-        if (sharedPreferences.contains(REPEAT_WEIGHT_PREF)) {
-            repeatWeight = sharedPreferences.getString(REPEAT_WEIGHT_PREF, "");
+        if (sharedPreferences.contains(AddExerciseDialog.REPEAT_WEIGHT_PREF)) {
+            repeatWeight = sharedPreferences.getString(AddExerciseDialog.REPEAT_WEIGHT_PREF, "");
         }
-        if (sharedPreferences.contains(REPEAT_REPS_PREF)) {
-            repeatReps = sharedPreferences.getString(REPEAT_REPS_PREF, "");
+        if (sharedPreferences.contains(AddExerciseDialog.REPEAT_REPS_PREF)) {
+            repeatReps = sharedPreferences.getString(AddExerciseDialog.REPEAT_REPS_PREF, "");
         }
     }
 
@@ -318,7 +312,6 @@ public class AddExerciseDialog extends DialogFragment {
 
         if (exercise == REPEAT_CODE && isModified) {
             exerciseContentText.setText(repeatExercise);
-
             if (weight == REPEAT_CODE) {
                 weightContentText.setText(repeatWeight);
             } else {

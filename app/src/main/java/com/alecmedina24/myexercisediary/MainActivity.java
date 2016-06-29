@@ -1,6 +1,8 @@
 package com.alecmedina24.myexercisediary;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -187,6 +189,11 @@ public class MainActivity extends AppCompatActivity implements AddExerciseDialog
     @Override
     public void displayVoiceRecognizer() {
         myDayFragment.displaySpeechRecognizer();
+    }
+
+    @Override
+    public SharedPreferences getSharedPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override

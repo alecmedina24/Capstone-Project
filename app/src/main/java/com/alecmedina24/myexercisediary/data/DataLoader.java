@@ -21,6 +21,7 @@ public class DataLoader implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final int EXERCISE_LOADER = 0;
     public static final int WEIGHT_LOADER = 1;
+
     private static final String[] EXERCISE_PROJECTION = new String[]{
             ExerciseContract.ExerciseEntry._ID,
             ExerciseContract.ExerciseEntry.COLUMN_DATE,

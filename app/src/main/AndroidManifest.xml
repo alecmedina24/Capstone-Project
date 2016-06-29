@@ -13,33 +13,48 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name="com.alecmedina24.myexercisediary.MainActivity"
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"
-            android:screenOrientation="portrait">
+            android:taskAffinity=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
+        <activity
+            android:name=".SingleActionActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:taskAffinity=".SingleActionActivity"
+            android:icon="@drawable/app_icon_weight">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <provider
-            android:authorities="com.alecmedina24.myexercisediary"
             android:name="com.alecmedina24.myexercisediary.Data.DataProvider"
+            android:authorities="com.alecmedina24.myexercisediary"
             android:exported="true" />
 
         <receiver android:name="com.alecmedina24.myexercisediary.Widget.ExerciseWidgetProvider">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/app_widget_provider_info"/>
+                android:resource="@xml/app_widget_provider_info" />
         </receiver>
 
-        <service android:name="com.alecmedina24.myexercisediary.Widget.ExerciseWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"
-            android:exported="false"/>
+        <!--<service-->
+            <!--android:name="com.alecmedina24.myexercisediary.Widget.ExerciseWidgetService"-->
+            <!--android:exported="false"-->
+            <!--android:permission="android.permission.BIND_REMOTEVIEWS" />-->
 
     </application>
 

@@ -6,16 +6,17 @@ import android.database.Cursor;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.alecmedina24.myexercisediary.Data.ExerciseContract;
 import com.alecmedina24.myexercisediary.MyDayScreen.MyDayModel;
 import com.alecmedina24.myexercisediary.R;
-import com.alecmedina24.myexercisediary.Data.ExerciseContract;
 
 import java.util.ArrayList;
 
 /**
  * Created by alecmedina on 5/5/16.
  */
-public class ExerciseWidgetService extends RemoteViewsService {
+public class ExerciseWidgetService  extends RemoteViewsService {
+
 
     private final String[] EXERCISE_PROJECTION = new String[]{
             ExerciseContract.ExerciseEntry.COLUMN_DATE,
@@ -68,9 +69,9 @@ public class ExerciseWidgetService extends RemoteViewsService {
 
             final MyDayModel exercise = exercises.get(position);
 
-            remoteViews.setTextViewText(R.id.widget_exercise, "Exercise: " + exercise.getExercise());
-            remoteViews.setTextViewText(R.id.widget_weight,"Weight: " + exercise.getWeight());
-            remoteViews.setTextViewText(R.id.widget_reps,"Reps: " + exercise.getReps());
+//            remoteViews.setTextViewText(R.id.widget_exercise, "Exercise: " + exercise.getExercise());
+//            remoteViews.setTextViewText(R.id.widget_weight,"Weight: " + exercise.getWeight());
+//            remoteViews.setTextViewText(R.id.widget_reps,"Reps: " + exercise.getReps());
 
             return remoteViews;
         }

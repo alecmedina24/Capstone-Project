@@ -1,4 +1,4 @@
-package com.alecmedina24.myexercisediary.Dialogs;
+package com.alecmedina24.myexercisediary.Dialogs.WidgetDialogs;
 
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 /**
  * Created by alecmedina on 5/7/16.
  */
-public class AddWeightDialog extends DialogFragment {
+public class WidgetAddWeightDialog extends DialogFragment {
 
     @Bind(R.id.date_picker)
     EditText datePicker;
@@ -35,18 +35,7 @@ public class AddWeightDialog extends DialogFragment {
 
     private ContentValues weightData;
     private Context context;
-    private UpdateWeightScreenListener updateWeightScreenListener;
-    private AddWeightCallback addWeightCallback;
     private long date;
-
-    //Callbacks to the MainActivity to update the screen and send weight data to google
-    public interface UpdateWeightScreenListener {
-        void updateWeightScreen();
-    }
-
-    public interface AddWeightCallback {
-        void addWeightGoogle(String weight);
-    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -58,9 +47,6 @@ public class AddWeightDialog extends DialogFragment {
         weightData = new ContentValues();
 
         context = getContext();
-
-        updateWeightScreenListener = (UpdateWeightScreenListener) getActivity();
-        addWeightCallback = (AddWeightCallback) getActivity();
 
         date = System.currentTimeMillis();
 
@@ -80,13 +66,12 @@ public class AddWeightDialog extends DialogFragment {
                     weightData.put(WeightContract.WeightEntry.COLUMN_WEIGHT, weight);
                     context.getContentResolver().insert(WeightContract.WeightEntry.CONTENT_URI, weightData);
 
-                    updateWeightScreenListener.updateWeightScreen();
-                    addWeightCallback.addWeightGoogle(weight);
+                    Toast.makeText(context.getApplicationContext(),
+                            "Weight Added", Toast.LENGTH_SHORT).show();
 
                     dialog.dismiss();
 
-                    Toast.makeText(context.getApplicationContext(),
-                            "Weight Added", Toast.LENGTH_SHORT).show();
+                    System.exit(0);
                 } else {
                     Toast.makeText(context.getApplicationContext(),
                             "Weight not Added", Toast.LENGTH_SHORT).show();
@@ -97,6 +82,7 @@ public class AddWeightDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        System.exit(0);
                     }
                 }
 
